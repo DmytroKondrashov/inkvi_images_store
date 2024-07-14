@@ -14,7 +14,7 @@ import { AuthModule } from './auth/auth.module';
       port: 3306,
       username: 'root',
       password: 'root',
-      database: 'test',
+      database: 'inkvi_images_store',
       entities: [User],
       synchronize: true,
     }),
