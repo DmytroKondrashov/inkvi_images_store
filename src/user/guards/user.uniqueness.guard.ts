@@ -2,9 +2,11 @@ import {
   BadRequestException,
   CanActivate,
   ExecutionContext,
+  Injectable,
 } from '@nestjs/common';
 import { UserService } from '../user.service';
 
+@Injectable()
 export default class UserUniquenessGuard implements CanActivate {
   constructor(private readonly userService: UserService) {}
 
