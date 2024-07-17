@@ -16,7 +16,7 @@ export default class UserUniquenessGuard implements CanActivate {
     if (!email || typeof email !== 'string') {
       throw new BadRequestException('Please specify the email');
     }
-    const existingUser = this.userService.findOne(email);
+    const existingUser = await this.userService.findOne(email);
     if (existingUser) {
       throw new BadRequestException('A user with this email Allready exist');
     }
