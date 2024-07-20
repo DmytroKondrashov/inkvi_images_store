@@ -9,5 +9,5 @@ export class Folder {
   name: string;
 
   @Column()
-  userid: number;
+  userId: number;
 }
