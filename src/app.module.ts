@@ -9,6 +9,8 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { FolderModule } from './folder/folder.module';
 import { ImageModule } from './image/image.module';
+import { Image } from './image/entity/image.entity';
+import { Folder } from './folder/entity/folder.entity';
 
 @Module({
   imports: [
@@ -19,7 +21,7 @@ import { ImageModule } from './image/image.module';
       username: 'root',
       password: 'root',
       database: 'inkvi_images_store',
-      entities: [User],
+      entities: [User, Image, Folder],
       synchronize: true,
     }),
     UserModule,
