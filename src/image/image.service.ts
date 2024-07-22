@@ -18,7 +18,7 @@ export class ImageService {
     return filename;
   }
 
-  async getImageData(filename: string) {
+  async getImage(filename: string) {
     const image = await this.imageRepository.findOne({ where: { filename } });
     if (!image) {
       throw new BadRequestException('Image not found!');

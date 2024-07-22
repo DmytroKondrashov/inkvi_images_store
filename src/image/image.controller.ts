@@ -26,7 +26,7 @@ export class ImageController {
   @Get(':filename')
   @Public()
   async getImage(@Param('filename') filename: string, @Res() res) {
-    const data = await this.imageService.getImageData(filename);
+    const data = await this.imageService.getImage(filename);
     res.setHeader('Content-Type', 'image/jpeg');
     res.send(data);
   }
