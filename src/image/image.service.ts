@@ -25,4 +25,13 @@ export class ImageService {
     }
     return image.image;
   }
+
+  async deleteImage(filename: string): Promise<string> {
+    try {
+      await this.imageRepository.delete({ filename });
+      return 'Image was successfully deleted!';
+    } catch (error) {
+      throw new BadRequestException('Could not delete an Image!');
+    }
+  }
 }
