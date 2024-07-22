@@ -5,6 +5,6 @@ export class Image {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'blob', nullable: false })
+  @Column({ type: 'longblob', nullable: false })
   image: Buffer;
 }
