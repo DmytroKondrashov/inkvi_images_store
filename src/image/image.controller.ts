@@ -1,5 +1,6 @@
 import {
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -29,5 +30,11 @@ export class ImageController {
     const data = await this.imageService.getImage(filename);
     res.setHeader('Content-Type', 'image/jpeg');
     res.send(data);
+  }
+
+  @Delete(':filename')
+  @Public()
+  async deleteImage(@Param('filename') filename: string) {
+    return this.imageService.deleteImage(filename);
   }
 }
