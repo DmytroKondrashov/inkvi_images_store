@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Image } from './entity/image.entity';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class ImageService {
@@ -10,8 +11,18 @@ export class ImageService {
     private readonly imageRepository: Repository<Image>,
   ) {}
 
-  async createImage(image: Buffer): Promise<Image> {
-    const newImage = this.imageRepository.create({ image });
-    return this.imageRepository.save(newImage);
+  async createImage(image: Buffer): Promise<string> {
+    const filename = uuidv4();
+    const newImage = this.imageRepository.create({ filename, image });
+    this.imageRepository.save(newImage);
+    return filename;
+  }
+
+  async getImageData(filename: string) {
+    const image = await this.imageRepository.findOne({ where: { filename } });
+    if (!image) {
+      throw new BadRequestException('Image not found!');
+    }
+    return image.image;
   }
 }
