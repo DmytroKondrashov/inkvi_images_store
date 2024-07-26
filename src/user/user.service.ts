@@ -5,12 +5,14 @@ import { User } from './entity/user.entity';
 import * as bcrypt from 'bcryptjs';
 import { CreateUserDTO } from './dto/create.user.dto';
 import { UpdateUserDTO } from './dto/update.user.dto';
+import { CommonService } from 'src/common/common.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly commonService: CommonService,
   ) {}
 
   async findOne(email: string): Promise<User | undefined> {
@@ -33,8 +35,9 @@ export class UserService {
     }
   }
 
-  async updateUser(body: UpdateUserDTO, userId: string) {
+  async updateUser(body: UpdateUserDTO, token: string) {
     try {
+      const userId = await this.commonService.getUserIdFromToken(token);
       await this.userRepository.update({ id: userId }, { email: body.email });
       return this.userRepository.findOne({ where: { id: userId } });
     } catch (error) {
