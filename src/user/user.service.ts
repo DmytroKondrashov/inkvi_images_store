@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { User } from './entity/user.entity';
 import * as bcrypt from 'bcryptjs';
 import { CreateUserDTO } from './dto/create.user.dto';
+import { UpdateUserDTO } from './dto/update.user.dto';
 
 @Injectable()
 export class UserService {
@@ -29,6 +30,14 @@ export class UserService {
       throw new BadRequestException(
         'Password and Passworch Confirmation should match',
       );
+    }
+  }
+
+  async updateUser(body: UpdateUserDTO, userId: string) {
+    try {
+      await this.userRepository.update({ id: userId }, { email: body.email });
+    } catch (error) {
+      throw new BadRequestException('Could not update User');
     }
   }
 }
