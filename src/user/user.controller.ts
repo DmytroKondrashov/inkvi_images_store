@@ -10,6 +10,6 @@ export class UserController {
   @Public()
   @Post('/create')
   async createUser(@Body() body: CreateUserDTO) {
-    return this.userService.createUser(body.email, body.password);
+    return this.userService.createUser(body);
   }
 }
