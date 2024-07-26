@@ -36,8 +36,17 @@ export class UserService {
   async updateUser(body: UpdateUserDTO, userId: string) {
     try {
       await this.userRepository.update({ id: userId }, { email: body.email });
+      return this.userRepository.findOne({ where: { id: userId } });
     } catch (error) {
       throw new BadRequestException('Could not update User');
     }
   }
+
+  // async deleteUser(userId: string) {
+  //   try {
+  //     return
+  //   } catch (error) {
+  //     throw new BadRequestException('Could not delete User');
+  //   }
+  // }
 }
