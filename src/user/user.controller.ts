@@ -3,6 +3,7 @@ import { UserService } from './user.service';
 import { CreateUserDTO } from './dto/create.user.dto';
 import { Public } from 'src/common/decorators/public.decorator';
 import { UpdateUserDTO } from './dto/update.user.dto';
+import { Token } from 'src/common/decorators/token.decorator';
 
 @Controller('user')
 export class UserController {
@@ -14,12 +15,9 @@ export class UserController {
     return this.userService.createUser(body);
   }
 
-  @Post('/update/:userId')
-  async updareUser(
-    @Body() body: UpdateUserDTO,
-    @Param('userId') userId: string,
-  ) {
-    return this.userService.updateUser(body, userId);
+  @Post('/update')
+  async updareUser(@Body() body: UpdateUserDTO, @Token() token: string) {
+    return this.userService.updateUser(body, token);
   }
 
   @Post('/delete/:userId')
