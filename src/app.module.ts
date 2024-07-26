@@ -8,9 +8,10 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { FolderModule } from './folder/folder.module';
 import { ImageModule } from './image/image.module';
 import { TypeOrmModule } from './datasource/typeorm.module';
+import { CommonModule } from './common/common.module';
 
 @Module({
-  imports: [UserModule, AuthModule, FolderModule, ImageModule, TypeOrmModule],
+  imports: [UserModule, AuthModule, FolderModule, ImageModule, TypeOrmModule, CommonModule],
   controllers: [AppController],
   providers: [
     AppService,
