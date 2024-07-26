@@ -42,11 +42,12 @@ export class UserService {
     }
   }
 
-  // async deleteUser(userId: string) {
-  //   try {
-  //     return
-  //   } catch (error) {
-  //     throw new BadRequestException('Could not delete User');
-  //   }
-  // }
+  async deleteUser(userId: string): Promise<string> {
+    try {
+      await this.userRepository.delete({ id: userId });
+      return 'User successfully deleted!';
+    } catch (error) {
+      throw new BadRequestException('Could not delete User');
+    }
+  }
 }
