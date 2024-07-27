@@ -19,7 +19,7 @@ export class UserService {
     return this.userRepository.findOne({ where: { email } });
   }
 
-  async createUser(body: CreateUserDTO): Promise<User> {
+  async createUser(body: CreateUserDTO): Promise<string> {
     const { email, password, passwordConfirmation } = body;
     if (password === passwordConfirmation) {
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -27,7 +27,8 @@ export class UserService {
         email,
         password: hashedPassword,
       });
-      return this.userRepository.save(user);
+      await this.userRepository.save(user);
+      return this.commonService.validateUser(email, password);
     } else {
       throw new BadRequestException(
         'Password and Passworch Confirmation should match',
