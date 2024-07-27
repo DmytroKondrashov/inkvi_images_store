@@ -7,10 +7,9 @@ import UserUniquenessGuard from './guards/user.uniqueness.guard';
 import { CommonService } from 'src/common/common.service';
 import { JwtService } from '@nestjs/jwt';
 import { AuthService } from 'src/auth/auth.service';
-import { CommonModule } from 'src/common/common.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), CommonModule],
+  imports: [TypeOrmModule.forFeature([User])],
   providers: [
     UserService,
     UserUniquenessGuard,

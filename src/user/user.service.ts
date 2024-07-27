@@ -28,7 +28,7 @@ export class UserService {
         password: hashedPassword,
       });
       await this.userRepository.save(user);
-      return this.commonService.validateUser(email, password);
+      return this.validateUser(email, password);
     } else {
       throw new BadRequestException(
         'Password and Passworch Confirmation should match',
@@ -53,5 +53,15 @@ export class UserService {
     } catch (error) {
       throw new BadRequestException('Could not delete User');
     }
+  }
+
+  async validateUser(username: string, pass: string): Promise<any> {
+    const user = await this.findOne(username);
+    if (user && (await bcrypt.compare(pass, user.password))) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { ...result } = user;
+      return result;
+    }
+    return null;
   }
 }
