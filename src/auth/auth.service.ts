@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/user/entity/user.entity';
 import { Repository } from 'typeorm';
+import { LoginDTO } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -10,12 +11,12 @@ export class AuthService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async login(user) {
-    const foundUser = this.userRepository.findOne({
+  async login(user: LoginDTO) {
+    const foundUser = await this.userRepository.findOne({
       where: { email: user.email },
     });
     if (foundUser) {
-      const payload = { sub: user.id, email: user.email };
+      const payload = { sub: foundUser.id, email: foundUser.email };
       return {
         token: this.jwtService.sign(payload, {
           secret: process.env.JWT_SECRET,
