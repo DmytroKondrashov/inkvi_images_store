@@ -18,6 +18,7 @@ export class UserController {
   }
 
   @Post('/update')
+  @UseGuards(UserUniquenessGuard)
   async updareUser(@Body() body: UpdateUserDTO, @Token() token: string) {
     return this.userService.updateUser(body, token);
   }
