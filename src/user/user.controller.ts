@@ -5,6 +5,7 @@ import { Public } from 'src/common/decorators/public.decorator';
 import { UpdateUserDTO } from './dto/update.user.dto';
 import { Token } from 'src/common/decorators/token.decorator';
 import UserUniquenessGuard from './guards/user.uniqueness.guard';
+import { UserDTO } from './dto/user.dto';
 
 @Controller('user')
 export class UserController {
@@ -19,7 +20,10 @@ export class UserController {
 
   @Post('/update')
   @UseGuards(UserUniquenessGuard)
-  async updareUser(@Body() body: UpdateUserDTO, @Token() token: string) {
+  async updareUser(
+    @Body() body: UpdateUserDTO,
+    @Token() token: string,
+  ): Promise<UserDTO> {
     return this.userService.updateUser(body, token);
   }
 

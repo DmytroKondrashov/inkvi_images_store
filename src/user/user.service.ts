@@ -7,6 +7,7 @@ import { CreateUserDTO } from './dto/create.user.dto';
 import { UpdateUserDTO } from './dto/update.user.dto';
 import { CommonService } from 'src/common/common.service';
 import { JwtService } from '@nestjs/jwt';
+import { UserDTO } from './dto/user.dto';
 
 @Injectable()
 export class UserService {
@@ -42,11 +43,15 @@ export class UserService {
     }
   }
 
-  async updateUser(body: UpdateUserDTO, token: string) {
+  async updateUser(body: UpdateUserDTO, token: string): Promise<UserDTO> {
     try {
       const userId = await this.commonService.getUserIdFromToken(token);
       await this.userRepository.update({ id: userId }, { email: body.email });
-      return this.userRepository.findOne({ where: { id: userId } });
+      const user = await this.userRepository.findOne({ where: { id: userId } });
+      return {
+        id: user.id,
+        email: user.email,
+      };
     } catch (error) {
       throw new BadRequestException('Could not update User');
     }
