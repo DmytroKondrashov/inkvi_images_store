@@ -6,17 +6,11 @@ import { User } from './entity/user.entity';
 import UserUniquenessGuard from './guards/user.uniqueness.guard';
 import { CommonService } from 'src/common/common.service';
 import { JwtService } from '@nestjs/jwt';
-import { AuthService } from 'src/auth/auth.service';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User])],
-  providers: [
-    UserService,
-    UserUniquenessGuard,
-    CommonService,
-    JwtService,
-    AuthService,
-  ],
+  imports: [TypeOrmModule.forFeature([User]), AuthModule],
+  providers: [UserService, UserUniquenessGuard, CommonService, JwtService],
   controllers: [UserController],
   exports: [UserService],
 })
