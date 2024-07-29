@@ -7,5 +7,5 @@ export class UserDTO {
 
   @IsEmail()
   @IsNotEmpty()
-  emails: string;
+  email: string;
 }
