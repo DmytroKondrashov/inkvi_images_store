@@ -6,6 +6,7 @@ import * as bcrypt from 'bcryptjs';
 import { CreateUserDTO } from './dto/create.user.dto';
 import { UpdateUserDTO } from './dto/update.user.dto';
 import { CommonService } from 'src/common/common.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserService {
@@ -13,6 +14,7 @@ export class UserService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly commonService: CommonService,
+    private readonly jwtService: JwtService,
   ) {}
 
   async findOne(email: string): Promise<User | undefined> {
@@ -28,7 +30,10 @@ export class UserService {
         password: hashedPassword,
       });
       await this.userRepository.save(user);
-      return this.validateUser(email, password);
+      const payload = { sub: user.id, email: user.email };
+      return this.jwtService.sign(payload, {
+        secret: process.env.JWT_SECRET,
+      });
     } else {
       throw new BadRequestException(
         'Password and Passworch Confirmation should match',
