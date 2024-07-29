@@ -21,7 +21,7 @@ export class UserService {
     return this.userRepository.findOne({ where: { email } });
   }
 
-  async createUser(body: CreateUserDTO): Promise<string> {
+  async createUser(body: CreateUserDTO): Promise<{ token: string }> {
     const { email, password, passwordConfirmation } = body;
     if (password === passwordConfirmation) {
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -31,9 +31,10 @@ export class UserService {
       });
       await this.userRepository.save(user);
       const payload = { sub: user.id, email: user.email };
-      return this.jwtService.sign(payload, {
+      const token = await this.jwtService.sign(payload, {
         secret: process.env.JWT_SECRET,
       });
+      return { token };
     } else {
       throw new BadRequestException(
         'Password and Passworch Confirmation should match',
