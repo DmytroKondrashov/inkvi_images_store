@@ -9,9 +9,6 @@ export class Folder {
   @Column()
   name: string;
 
-  @Column()
-  userId: number;
-
   @ManyToOne(() => User, (user) => user.folders)
   user: User;
 }
