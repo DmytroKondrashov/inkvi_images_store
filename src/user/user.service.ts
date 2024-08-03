@@ -57,8 +57,9 @@ export class UserService {
     }
   }
 
-  async deleteUser(userId: string): Promise<string> {
+  async deleteUser(token: string): Promise<string> {
     try {
+      const userId = await this.commonService.getUserIdFromToken(token);
       await this.userRepository.delete({ id: userId });
       return 'User successfully deleted!';
     } catch (error) {
