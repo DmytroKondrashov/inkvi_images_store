@@ -1,8 +1,8 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class UpdateFolderrDTO {
   @IsNotEmpty()
-  @IsString()
+  @IsNumber()
   id: number;
 
   @IsNotEmpty()
