@@ -3,7 +3,7 @@ import { IsNotEmpty, IsString } from 'class-validator';
 export class UpdateFolderrDTO {
   @IsNotEmpty()
   @IsString()
-  id: string;
+  id: number;
 
   @IsNotEmpty()
   @IsString()
