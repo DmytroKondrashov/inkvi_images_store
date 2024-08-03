@@ -17,4 +17,9 @@ export class FolderController {
   async editFolder(@Body() body: UpdateFolderrDTO) {
     return this.folderService.editFolder(body);
   }
+
+  @Post('/delete')
+  async deleteFolder(@Body() id: number) {
+    return this.folderService.deleteFolder(id);
+  }
 }

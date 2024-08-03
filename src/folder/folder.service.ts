@@ -33,4 +33,13 @@ export class FolderService {
       throw new BadRequestException('Could not edit folder');
     }
   }
+
+  async deleteFolder(id: number): Promise<string> {
+    try {
+      await this.folderRepository.delete({ id });
+      return 'Folder successfully deleted!';
+    } catch (error) {
+      throw new BadRequestException('Could not delete Folder');
+    }
+  }
 }
