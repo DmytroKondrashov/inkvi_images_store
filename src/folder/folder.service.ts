@@ -24,6 +24,10 @@ export class FolderService {
     return this.folderRepository.save(folder);
   }
 
+  async getFolder(id: number) {
+    return this.folderRepository.findOne({ where: { id } });
+  }
+
   async editFolder(body: UpdateFolderrDTO) {
     try {
       const { id, name } = body;
