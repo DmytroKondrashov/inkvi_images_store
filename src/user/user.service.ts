@@ -57,6 +57,10 @@ export class UserService {
     }
   }
 
+  async getUser(id: string) {
+    return this.userRepository.findOne({ where: { id } });
+  }
+
   async deleteUser(token: string): Promise<string> {
     try {
       const userId = await this.commonService.getUserIdFromToken(token);
