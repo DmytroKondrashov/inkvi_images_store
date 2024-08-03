@@ -17,11 +17,17 @@ export class FolderService {
   ) {}
 
   async createFolder(body: CreateFolderrDTO, token: string) {
-    const { name } = body;
-    const userId = await this.commonService.getUserIdFromToken(token);
-    const user = await this.userService.getUser(userId);
-    const folder = this.folderRepository.create({ user, name });
-    return this.folderRepository.save(folder);
+    try {
+      const { name } = body;
+      const userId = await this.commonService.getUserIdFromToken(token);
+      const user = await this.userService.getUser(userId);
+      const folder = this.folderRepository.create({ user, name });
+      const response = await this.folderRepository.save(folder);
+      delete response.user.password;
+      return response;
+    } catch (error) {
+      throw new BadRequestException('Could not create the Folder!');
+    }
   }
 
   async getFolder(id: number) {
