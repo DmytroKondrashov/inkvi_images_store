@@ -1,12 +1,10 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { UserService } from '../../user/user.service';
 import { FolderService } from '../folder.service';
 import { CommonService } from 'src/common/common.service';
 
 @Injectable()
 export default class ManipulateOwnFolderGuard implements CanActivate {
   constructor(
-    private readonly userService: UserService,
     private readonly folredService: FolderService,
     private readonly commonService: CommonService,
   ) {}
