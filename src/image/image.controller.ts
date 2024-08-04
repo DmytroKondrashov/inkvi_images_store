@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -11,6 +12,7 @@ import {
 import { ImageService } from './image.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Public } from 'src/common/decorators/public.decorator';
+import { Token } from 'src/common/decorators/token.decorator';
 
 @Controller('image')
 export class ImageController {
@@ -19,8 +21,16 @@ export class ImageController {
   @Post('upload')
   @Public()
   @UseInterceptors(FileInterceptor('file'))
-  async uploadFile(@UploadedFile() file: Express.Multer.File) {
-    const imageName = await this.imageService.createImage(file.buffer);
+  async uploadFile(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() folderId: number,
+    @Token() token: string,
+  ) {
+    const imageName = await this.imageService.createImage(
+      file.buffer,
+      folderId,
+      token,
+    );
     return `http://localhost:3000/image/${imageName}`;
   }
 

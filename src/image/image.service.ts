@@ -3,17 +3,35 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Image } from './entity/image.entity';
 import { v4 as uuidv4 } from 'uuid';
+import { FolderService } from 'src/folder/folder.service';
+import { CommonService } from 'src/common/common.service';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class ImageService {
   constructor(
     @InjectRepository(Image)
     private readonly imageRepository: Repository<Image>,
+    private readonly folderService: FolderService,
+    private readonly commonService: CommonService,
+    private readonly userService: UserService,
   ) {}
 
-  async createImage(image: Buffer): Promise<string> {
+  async createImage(
+    image: Buffer,
+    folderId: number,
+    token: string,
+  ): Promise<string> {
     const filename = uuidv4();
-    const newImage = this.imageRepository.create({ filename, image });
+    const userId = await this.commonService.getUserIdFromToken(token);
+    const user = await this.userService.getUser(userId);
+    const folder = await this.folderService.getFolder(folderId);
+    const newImage = this.imageRepository.create({
+      filename,
+      image,
+      user,
+      folder,
+    });
     this.imageRepository.save(newImage);
     return filename;
   }
