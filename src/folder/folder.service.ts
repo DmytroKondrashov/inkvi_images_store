@@ -37,7 +37,10 @@ export class FolderService {
   async editFolder(body: UpdateFolderrDTO) {
     try {
       const { id, name } = body;
-      await this.folderRepository.update(id, { name });
+      const res = await this.folderRepository.update(id, { name });
+      if (res.affected === 0) {
+        throw new BadRequestException('Could not edit folder');
+      }
       return this.folderRepository.findOne({ where: { id } });
     } catch (error) {
       throw new BadRequestException('Could not edit folder');
@@ -46,7 +49,7 @@ export class FolderService {
 
   async deleteFolder(id: number): Promise<string> {
     try {
-      await this.folderRepository.delete({ id });
+      await this.folderRepository.delete(id);
       return 'Folder successfully deleted!';
     } catch (error) {
       throw new BadRequestException('Could not delete Folder');
