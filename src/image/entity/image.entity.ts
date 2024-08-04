@@ -1,5 +1,6 @@
 import { IsNotEmpty, IsString } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Folder } from 'src/folder/entity/folder.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Image {
@@ -13,4 +14,7 @@ export class Image {
 
   @Column({ type: 'longblob', nullable: false })
   image: Buffer;
+
+  @ManyToOne(() => Folder, (folder) => folder.images)
+  folder: Folder;
 }
