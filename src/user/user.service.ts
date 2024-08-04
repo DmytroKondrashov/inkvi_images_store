@@ -46,7 +46,13 @@ export class UserService {
   async updateUser(body: UpdateUserDTO, token: string): Promise<UserDTO> {
     try {
       const userId = await this.commonService.getUserIdFromToken(token);
-      await this.userRepository.update({ id: userId }, { email: body.email });
+      const res = await this.userRepository.update(
+        { id: userId },
+        { email: body.email },
+      );
+      if (res.affected === 0) {
+        throw new BadRequestException('Could not update User');
+      }
       const user = await this.userRepository.findOne({ where: { id: userId } });
       return {
         id: user.id,
@@ -64,7 +70,10 @@ export class UserService {
   async deleteUser(token: string): Promise<string> {
     try {
       const userId = await this.commonService.getUserIdFromToken(token);
-      await this.userRepository.delete({ id: userId });
+      const res = await this.userRepository.delete({ id: userId });
+      if (res.affected === 0) {
+        throw new BadRequestException('Could not delete User');
+      }
       return 'User successfully deleted!';
     } catch (error) {
       throw new BadRequestException('Could not delete User');
