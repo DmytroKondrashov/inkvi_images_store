@@ -39,7 +39,7 @@ export class FolderService {
       const { id, name } = body;
       const res = await this.folderRepository.update(id, { name });
       if (res.affected === 0) {
-        throw new BadRequestException('Could not edit folder');
+        throw new BadRequestException('Could not edit Folder');
       }
       return this.folderRepository.findOne({ where: { id } });
     } catch (error) {
@@ -49,7 +49,10 @@ export class FolderService {
 
   async deleteFolder(id: number): Promise<string> {
     try {
-      await this.folderRepository.delete(id);
+      const res = await this.folderRepository.delete(id);
+      if (res.affected === 0) {
+        throw new BadRequestException('Could not dalate Folder');
+      }
       return 'Folder successfully deleted!';
     } catch (error) {
       throw new BadRequestException('Could not delete Folder');
