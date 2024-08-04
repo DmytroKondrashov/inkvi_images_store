@@ -31,7 +31,10 @@ export class FolderService {
   }
 
   async getFolder(id: number) {
-    return this.folderRepository.findOne({ where: { id } });
+    return this.folderRepository.findOne({
+      where: { id },
+      relations: ['user'],
+    });
   }
 
   async editFolder(body: UpdateFolderrDTO) {
