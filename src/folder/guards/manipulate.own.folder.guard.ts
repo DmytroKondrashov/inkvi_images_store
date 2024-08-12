@@ -1,4 +1,9 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+} from '@nestjs/common';
 import { FolderService } from '../folder.service';
 import { CommonService } from 'src/common/common.service';
 
@@ -10,14 +15,18 @@ export default class ManipulateOwnFolderGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest();
-    if (!request.headers.authorization) {
-      return false;
+    try {
+      const request = context.switchToHttp().getRequest();
+      if (!request.headers.authorization) {
+        return false;
+      }
+      const token = request.headers.authorization.split(' ')[1];
+      const userId = await this.commonService.getUserIdFromToken(token);
+      const { id } = request.body;
+      const folder = await this.folredService.getFolder(id);
+      return userId === folder.user.id;
+    } catch (error) {
+      throw new BadRequestException('You can not manipulate this folder');
     }
-    const token = request.headers.authorization.split(' ')[1];
-    const userId = await this.commonService.getUserIdFromToken(token);
-    const { id } = request.body;
-    const folder = await this.folredService.getFolder(id);
-    return userId === folder.user.id;
   }
 }
