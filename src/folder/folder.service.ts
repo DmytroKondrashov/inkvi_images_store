@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateFolderrDTO } from './dto/create.folder.dto';
 import { CommonService } from 'src/common/common.service';
 import { UserService } from 'src/user/user.service';
-import { UpdateFolderrDTO } from './dto/update.folder.dto';
+import { UpdateFolderDTO } from './dto/update.folder.dto';
 
 @Injectable()
 export class FolderService {
@@ -37,7 +37,7 @@ export class FolderService {
     });
   }
 
-  async editFolder(body: UpdateFolderrDTO) {
+  async editFolder(body: UpdateFolderDTO) {
     try {
       const { id, name } = body;
       const res = await this.folderRepository.update(id, { name });
