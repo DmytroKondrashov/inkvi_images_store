@@ -2,7 +2,7 @@ import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { FolderService } from './folder.service';
 import { CreateFolderrDTO } from './dto/create.folder.dto';
 import { Token } from 'src/common/decorators/token.decorator';
-import { UpdateFolderrDTO } from './dto/update.folder.dto';
+import { UpdateFolderDTO } from './dto/update.folder.dto';
 import ManipulateOwnFolderGuard from './guards/manipulate.own.folder.guard';
 
 @Controller('folder')
@@ -16,7 +16,7 @@ export class FolderController {
 
   @Post('/edit')
   @UseGuards(ManipulateOwnFolderGuard)
-  async editFolder(@Body() body: UpdateFolderrDTO) {
+  async editFolder(@Body() body: UpdateFolderDTO) {
     return this.folderService.editFolder(body);
   }
 

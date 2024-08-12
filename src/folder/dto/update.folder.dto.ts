@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
-export class UpdateFolderrDTO {
+export class UpdateFolderDTO {
   @IsNotEmpty()
   @IsNumber()
   id: number;
