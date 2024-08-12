@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -26,6 +27,12 @@ export class ImageController {
     @Body() folderId: number,
     @Token() token: string,
   ) {
+    if (!file) {
+      throw new BadRequestException('File is required!');
+    }
+    if (!folderId) {
+      throw new BadRequestException('Folder ID is required!');
+    }
     const imageName = await this.imageService.createImage(
       file.buffer,
       folderId,
