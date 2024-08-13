@@ -38,7 +38,10 @@ export class ImageController {
       folderId,
       token,
     );
-    return `http://localhost:3000/image/${imageName}`;
+    return {
+      imageName: imageName,
+      imageUrl: `http://localhost:3000/image/${imageName}`,
+    };
   }
 
   @Get(':filename')
