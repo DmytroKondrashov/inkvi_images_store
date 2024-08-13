@@ -24,7 +24,7 @@ export class ImageController {
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(
     @UploadedFile() file: Express.Multer.File,
-    @Body() folderId: number,
+    @Body() folderId: { folderId: string },
     @Token() token: string,
   ) {
     if (!file) {

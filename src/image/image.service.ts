@@ -19,19 +19,21 @@ export class ImageService {
 
   async createImage(
     image: Buffer,
-    folderId: number,
+    folderId: { folderId: string },
     token: string,
   ): Promise<string> {
     const filename = uuidv4();
     const userId = await this.commonService.getUserIdFromToken(token);
     const user = await this.userService.getUser(userId);
-    const folder = await this.folderService.getFolder(folderId);
+    const folder = await this.folderService.getFolder(
+      parseInt(folderId.folderId, 10),
+    );
     const newImage = this.imageRepository.create({
       filename,
       image,
-      user,
-      folder,
     });
+    newImage.user = user;
+    newImage.folder = folder;
     this.imageRepository.save(newImage);
     return filename;
   }
