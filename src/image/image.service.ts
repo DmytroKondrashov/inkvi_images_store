@@ -28,6 +28,10 @@ export class ImageService {
     const folder = await this.folderService.getFolder(
       parseInt(folderId.folderId, 10),
     );
+    if (!user || !folder) {
+      throw new BadRequestException('Could not upload the image!');
+    }
+    console.log(folderId.folderId)
     const newImage = this.imageRepository.create({
       filename,
       image,
@@ -52,5 +56,16 @@ export class ImageService {
       throw new BadRequestException('Image not found!');
     }
     return 'Your image was successfully deleted!';
+  }
+
+  async getAllImagesInFolder(token: string, folderId: number) {
+    const userId = await this.commonService.getUserIdFromToken(token);
+    const images = await this.imageRepository.find({
+      where: {
+        user: { id: userId },
+        folder: { id: folderId },
+      },
+    });
+    console.log(images);
   }
 }
