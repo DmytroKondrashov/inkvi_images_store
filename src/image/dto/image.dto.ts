@@ -1,21 +1,21 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class ImageDTO {
   @IsNotEmpty()
-  @IsString()
-  id: string;
+  @IsNumber()
+  id: number;
 
   @IsNotEmpty()
   @IsString()
   fileName: string;
 
   @IsNotEmpty()
-  @IsString()
-  userId: string;
+  @IsNumber()
+  userId: number;
 
   @IsNotEmpty()
-  @IsString()
-  folderId: string;
+  @IsNumber()
+  folderId: number;
 
   @IsNotEmpty()
   @IsString()
