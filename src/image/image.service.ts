@@ -70,6 +70,8 @@ export class ImageService {
       return {
         id: image.id,
         filename: image.filename,
+        user: userId,
+        folder: folderId,
         url: `http://localhost:3000/image/${image.filename}`,
       };
     });
