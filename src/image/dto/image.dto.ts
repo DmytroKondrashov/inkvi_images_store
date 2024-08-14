@@ -1,8 +1,23 @@
-import { IsNotEmpty } from 'class-validator';
-import { IsBlob } from 'src/common/decorators/blob.decorator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class ImageDTO {
   @IsNotEmpty()
-  @IsBlob()
-  image: Buffer | ArrayBuffer;
+  @IsString()
+  is: string;
+
+  @IsNotEmpty()
+  @IsString()
+  fileName: string;
+
+  @IsNotEmpty()
+  @IsString()
+  userId: string;
+
+  @IsNotEmpty()
+  @IsString()
+  folderId: string;
+
+  @IsNotEmpty()
+  @IsString()
+  url: string;
 }
