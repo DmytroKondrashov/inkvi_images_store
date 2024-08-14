@@ -66,5 +66,13 @@ export class ImageService {
       },
     });
     console.log(images);
+    const data = images.map((image) => {
+      return {
+        id: image.id,
+        filename: image.filename,
+        url: `http://localhost:3000/image/${image.filename}`,
+      };
+    });
+    return data;
   }
 }

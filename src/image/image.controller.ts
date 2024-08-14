@@ -44,8 +44,16 @@ export class ImageController {
     };
   }
 
+  @Get('/images')
+  async getAllImagesInFolder(@Token() token: string, @Body() body) {
+    const folderId = body.folderId;
+    return this.imageService.getAllImagesInFolder(
+      token,
+      parseInt(folderId, 10),
+    );
+  }
+
   @Get(':filename')
-  @Public()
   async getImage(@Param('filename') filename: string, @Res() res) {
     const data = await this.imageService.getImage(filename);
     res.setHeader('Content-Type', 'image/jpeg');
@@ -53,7 +61,6 @@ export class ImageController {
   }
 
   @Delete(':filename')
-  @Public()
   async deleteImage(@Param('filename') filename: string) {
     return this.imageService.deleteImage(filename);
   }
