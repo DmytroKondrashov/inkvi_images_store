@@ -31,7 +31,6 @@ export class ImageService {
     if (!user || !folder) {
       throw new BadRequestException('Could not upload the image!');
     }
-    console.log(folderId.folderId)
     const newImage = this.imageRepository.create({
       filename,
       image,
