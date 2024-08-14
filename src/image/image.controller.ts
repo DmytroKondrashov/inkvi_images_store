@@ -40,7 +40,7 @@ export class ImageController {
     );
     return {
       imageName: imageName,
-      imageUrl: `http://localhost:3000/image/${imageName}`,
+      imageUrl: `${process.env.APP_HOST}/image/${imageName}`,
     };
   }
 

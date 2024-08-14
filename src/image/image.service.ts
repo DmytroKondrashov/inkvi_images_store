@@ -72,7 +72,7 @@ export class ImageService {
         filename: image.filename,
         user: userId,
         folder: folderId,
-        url: `http://localhost:3000/image/${image.filename}`,
+        url: `${process.env.APP_HOST}/image/${image.filename}`,
       };
     });
     return data;
