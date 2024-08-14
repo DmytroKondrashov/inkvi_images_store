@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { FolderService } from 'src/folder/folder.service';
 import { CommonService } from 'src/common/common.service';
 import { UserService } from 'src/user/user.service';
+import { ImageDTO } from './dto/image.dto';
 
 @Injectable()
 export class ImageService {
@@ -21,7 +22,7 @@ export class ImageService {
     image: Buffer,
     folderId: { folderId: string },
     token: string,
-  ): Promise<string> {
+  ): Promise<ImageDTO> {
     const filename = uuidv4();
     const userId = await this.commonService.getUserIdFromToken(token);
     const user = await this.userService.getUser(userId);
@@ -38,7 +39,13 @@ export class ImageService {
     newImage.user = user;
     newImage.folder = folder;
     this.imageRepository.save(newImage);
-    return filename;
+    return {
+      id: newImage.id,
+      fileName: filename as string,
+      userId: parseInt(userId, 10),
+      folderId: parseInt(folderId.folderId, 10),
+      url: `${process.env.APP_HOST}/image/${filename}`,
+    };
   }
 
   async getImage(filename: string) {

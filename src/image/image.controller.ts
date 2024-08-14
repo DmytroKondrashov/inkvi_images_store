@@ -14,6 +14,7 @@ import { ImageService } from './image.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Public } from 'src/common/decorators/public.decorator';
 import { Token } from 'src/common/decorators/token.decorator';
+import { ImageDTO } from './dto/image.dto';
 
 @Controller('image')
 export class ImageController {
@@ -26,22 +27,14 @@ export class ImageController {
     @UploadedFile() file: Express.Multer.File,
     @Body() folderId: { folderId: string },
     @Token() token: string,
-  ) {
+  ): Promise<ImageDTO> {
     if (!file) {
       throw new BadRequestException('File is required!');
     }
     if (!folderId) {
       throw new BadRequestException('Folder ID is required!');
     }
-    const imageName = await this.imageService.createImage(
-      file.buffer,
-      folderId,
-      token,
-    );
-    return {
-      imageName: imageName,
-      imageUrl: `${process.env.APP_HOST}/image/${imageName}`,
-    };
+    return this.imageService.createImage(file.buffer, folderId, token);
   }
 
   @Get('/images')
