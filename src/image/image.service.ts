@@ -72,13 +72,12 @@ export class ImageService {
         folder: { id: folderId },
       },
     });
-    console.log(images);
     const data = images.map((image) => {
       return {
         id: image.id,
-        filename: image.filename,
-        user: userId,
-        folder: folderId,
+        fileName: image.filename,
+        userId: parseInt(userId, 10),
+        folderId: folderId,
         url: `${process.env.APP_HOST}/image/${image.filename}`,
       };
     });

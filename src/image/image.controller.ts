@@ -38,7 +38,10 @@ export class ImageController {
   }
 
   @Get('/images')
-  async getAllImagesInFolder(@Token() token: string, @Body() body) {
+  async getAllImagesInFolder(
+    @Token() token: string,
+    @Body() body,
+  ): Promise<ImageDTO[]> {
     const folderId = body.folderId;
     return this.imageService.getAllImagesInFolder(
       token,
