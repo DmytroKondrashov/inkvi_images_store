@@ -3,7 +3,7 @@ import { IsNotEmpty, IsString } from 'class-validator';
 export class ImageDTO {
   @IsNotEmpty()
   @IsString()
-  is: string;
+  id: string;
 
   @IsNotEmpty()
   @IsString()
