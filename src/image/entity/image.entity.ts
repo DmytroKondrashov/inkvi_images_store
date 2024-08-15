@@ -1,7 +1,14 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 import { Folder } from 'src/folder/entity/folder.entity';
+import { Tag } from 'src/tag/entity/tag.entity';
 import { User } from 'src/user/entity/user.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Image {
@@ -21,4 +28,7 @@ export class Image {
 
   @ManyToOne(() => User, (user) => user.images)
   user: User;
+
+  @ManyToMany(() => Tag, (tag) => tag.images)
+  tags: Tag[];
 }
