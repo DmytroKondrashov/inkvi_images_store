@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { FolderService } from './folder.service';
 import { CreateFolderrDTO } from './dto/create.folder.dto';
 import { Token } from 'src/common/decorators/token.decorator';
@@ -24,5 +24,11 @@ export class FolderController {
   @UseGuards(ManipulateOwnFolderGuard)
   async deleteFolder(@Body() id: number) {
     return this.folderService.deleteFolder(id);
+  }
+
+  @Get('/folders')
+  @UseGuards(ManipulateOwnFolderGuard)
+  async getFolders(@Token() token: string) {
+    return this.folderService.getFolders(token);
   }
 }

@@ -61,4 +61,21 @@ export class FolderService {
       throw new BadRequestException('Could not delete Folder');
     }
   }
+
+  async getFolders(token: string) {
+    const userId = await this.commonService.getUserIdFromToken(token);
+    const folders = await this.folderRepository.find({
+      where: {
+        user: { id: userId },
+      },
+    });
+    const data = folders.map((folder) => {
+      return {
+        id: folder.id,
+        name: folder.name,
+        userId: folder.user.id,
+      };
+    });
+    return data;
+  }
 }
