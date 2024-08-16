@@ -57,4 +57,8 @@ export class TagService {
       throw new BadRequestException(errorText);
     }
   }
+
+  async getTags() {
+    return this.tagRepository.find({});
+  }
 }
