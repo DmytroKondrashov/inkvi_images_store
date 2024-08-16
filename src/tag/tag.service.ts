@@ -44,4 +44,17 @@ export class TagService {
       throw new BadRequestException(errorText);
     }
   }
+
+  async deleteTag(id: number): Promise<string> {
+    const errorText = 'Could not dalete Folder';
+    try {
+      const res = await this.tagRepository.delete(id);
+      if (res.affected === 0) {
+        throw new BadRequestException(errorText);
+      }
+      return 'Folder successfully deleted!';
+    } catch (error) {
+      throw new BadRequestException(errorText);
+    }
+  }
 }
