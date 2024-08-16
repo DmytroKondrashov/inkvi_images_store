@@ -23,4 +23,10 @@ export class TagService {
       throw new BadRequestException('Could not create the Tag!');
     }
   }
+
+  async getTag(id: number) {
+    return this.tagRepository.findOne({
+      where: { id },
+    });
+  }
 }
