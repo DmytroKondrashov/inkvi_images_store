@@ -9,7 +9,7 @@ export class UpdateTagDTO {
   @IsNumber()
   imageId?: number;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  name: string;
+  name?: string;
 }
