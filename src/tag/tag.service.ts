@@ -13,7 +13,7 @@ export class TagService {
     private readonly commonService: CommonService,
   ) {}
 
-  async createFolder(body: CreateTagDTO) {
+  async createTag(body: CreateTagDTO) {
     try {
       const { name } = body;
       const tag = this.tagRepository.create({ name });
