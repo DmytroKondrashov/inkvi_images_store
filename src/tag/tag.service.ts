@@ -5,12 +5,15 @@ import { Tag } from './entity/tag.entity';
 import { Repository } from 'typeorm';
 import { CommonService } from 'src/common/common.service';
 import { UpdateTagDTO } from './dto/update.tag.dto';
+import { Image } from 'src/image/entity/image.entity';
 
 @Injectable()
 export class TagService {
   constructor(
     @InjectRepository(Tag)
     private readonly tagRepository: Repository<Tag>,
+    @InjectRepository(Image)
+    private readonly imageRepository: Repository<Image>,
     private readonly commonService: CommonService,
   ) {}
 
@@ -34,8 +37,18 @@ export class TagService {
   async editTag(body: UpdateTagDTO) {
     const errorText = 'Could not edit Tag';
     try {
-      const { id, name } = body;
+      const { id, imageId, name } = body;
       const res = await this.tagRepository.update(id, { name });
+      if (imageId) {
+        const tag = await this.tagRepository.findOne({ where: { id } });
+        const image = await this.imageRepository.findOne({
+          where: { id: imageId },
+        });
+        (await image).tags.push(tag);
+        (await tag).images.push(image);
+        await this.tagRepository.save(tag);
+        await this.imageRepository.save(image);
+      }
       if (res.affected === 0) {
         throw new BadRequestException(errorText);
       }
