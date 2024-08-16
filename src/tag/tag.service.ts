@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Tag } from './entity/tag.entity';
 import { Repository } from 'typeorm';
 import { CommonService } from 'src/common/common.service';
+import { UpdateTagDTO } from './dto/update.tag.dto';
 
 @Injectable()
 export class TagService {
@@ -28,5 +29,19 @@ export class TagService {
     return this.tagRepository.findOne({
       where: { id },
     });
+  }
+
+  async editTag(body: UpdateTagDTO) {
+    const errorText = 'Could not edit Tag';
+    try {
+      const { id, name } = body;
+      const res = await this.tagRepository.update(id, { name });
+      if (res.affected === 0) {
+        throw new BadRequestException(errorText);
+      }
+      return this.tagRepository.findOne({ where: { id } });
+    } catch (error) {
+      throw new BadRequestException(errorText);
+    }
   }
 }
