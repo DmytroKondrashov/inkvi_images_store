@@ -1,4 +1,4 @@
-# NestJS Application Setup
+# Inkvi Images Store Local Application Setup
 
 ## Prerequisites
 
