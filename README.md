@@ -37,7 +37,7 @@ This script will create a new MySQL database named inkvi_images_store.
 Once the database is set up, run the database migrations to create the necessary tables:
 
 ```bash
-yarn database:migrate
+yarn migration:run
 ```
 
 ### 4. Start the Application
