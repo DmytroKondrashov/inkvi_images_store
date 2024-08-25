@@ -1,5 +1,4 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Image } from 'src/image/entity/image.entity';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Tag {
@@ -8,7 +7,4 @@ export class Tag {
 
   @Column()
   name: string;
-
-  @ManyToMany(() => Image, (image) => image.tags)
-  images: Image[];
 }
