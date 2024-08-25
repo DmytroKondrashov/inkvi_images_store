@@ -30,7 +30,9 @@ export class Image {
   @ManyToOne(() => User, (user) => user.images)
   user: User;
 
-  @ManyToMany(() => Tag)
+  @ManyToMany(() => Tag, {
+    cascade: true,
+  })
   @JoinTable()
   tags: Tag[];
 }
