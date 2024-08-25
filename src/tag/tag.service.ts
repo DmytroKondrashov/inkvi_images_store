@@ -38,22 +38,30 @@ export class TagService {
     const errorText = 'Could not edit Tag';
     try {
       const { id, imageId, name } = body;
-      const res = await this.tagRepository.update(id, { name });
+      await this.tagRepository.update(id, { name });
+      const image = await this.imageRepository.findOne({
+        where: { id: imageId },
+      });
       if (imageId) {
         const tag = await this.tagRepository.findOne({ where: { id } });
-        const image = await this.imageRepository.findOne({
-          where: { id: imageId },
-        });
-        (await image).tags.push(tag);
-        (await tag).images.push(image);
-        await this.tagRepository.save(tag);
-        await this.imageRepository.save(image);
+        if (image.tags) {
+          const existingTag = image.tags.some(
+            (currentTag) => currentTag.id === tag.id,
+          );
+          if (!existingTag) {
+            image.tags.push(tag);
+          }
+        } else {
+          image.tags = [tag];
+        }
       }
-      if (res.affected === 0) {
-        throw new BadRequestException(errorText);
-      }
+      await this.imageRepository.manager.save(image);
+      await this.tagRepository.manager.save(
+        await this.tagRepository.findOne({ where: { id } }),
+      );
       return this.tagRepository.findOne({ where: { id } });
     } catch (error) {
+      console.log(error)
       throw new BadRequestException(errorText);
     }
   }
