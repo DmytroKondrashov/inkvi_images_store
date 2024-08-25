@@ -5,6 +5,7 @@ import { User } from 'src/user/entity/user.entity';
 import {
   Column,
   Entity,
+  JoinTable,
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -29,6 +30,7 @@ export class Image {
   @ManyToOne(() => User, (user) => user.images)
   user: User;
 
-  @ManyToMany(() => Tag, (tag) => tag.images)
+  @ManyToMany(() => Tag)
+  @JoinTable()
   tags: Tag[];
 }
