@@ -31,6 +31,6 @@ export class AuthController {
       maxAge: 3600 * 1000, // 1 hour expiration
       sameSite: 'strict', // Prevent CSRF attacks
     });
-    return res.redirect('/folders_list');
+    return res.redirect('/folder/folders');
   }
 }
