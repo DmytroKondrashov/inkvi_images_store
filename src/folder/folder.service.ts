@@ -68,6 +68,7 @@ export class FolderService {
       where: {
         user: { id: userId },
       },
+      relations: ['user'],
     });
     const data = folders.map((folder) => {
       return {
