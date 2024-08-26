@@ -61,7 +61,6 @@ export class TagService {
       );
       return this.tagRepository.findOne({ where: { id } });
     } catch (error) {
-      console.log(error)
       throw new BadRequestException(errorText);
     }
   }
