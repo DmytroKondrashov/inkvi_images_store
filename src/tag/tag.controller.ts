@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post } from '@nestjs/common';
 import { TagService } from './tag.service';
 import { CreateTagDTO } from './dto/create.tag.dto';
 import { UpdateTagDTO } from './dto/update.tag.dto';
@@ -17,7 +17,7 @@ export class TagController {
     return this.tagService.editTag(body);
   }
 
-  @Post('/delete')
+  @Delete('/delete')
   async deleteFolder(@Body() id: number) {
     return this.tagService.deleteTag(id);
   }
