@@ -11,6 +11,7 @@ import { CreateFolderrDTO } from './dto/create.folder.dto';
 import { Token } from 'src/common/decorators/token.decorator';
 import { UpdateFolderDTO } from './dto/update.folder.dto';
 import ManipulateOwnFolderGuard from './guards/manipulate.own.folder.guard';
+import { Public } from 'src/common/decorators/public.decorator';
 
 @Controller('folder')
 export class FolderController {
@@ -34,9 +35,9 @@ export class FolderController {
   }
 
   @Get('/folders')
-  @UseGuards(ManipulateOwnFolderGuard)
+  @Public()
   async getFolders(@Request() req, @Token() token: string) {
-    const finalToken = token ? token : req.cookies['token'];
+    const finalToken = token ? token : req.cookies['token']['token'];
     return this.folderService.getFolders(finalToken);
   }
 }
