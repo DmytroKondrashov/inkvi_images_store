@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
 import { FolderService } from './folder.service';
 import { CreateFolderrDTO } from './dto/create.folder.dto';
 import { Token } from 'src/common/decorators/token.decorator';
@@ -28,7 +28,8 @@ export class FolderController {
 
   @Get('/folders')
   @UseGuards(ManipulateOwnFolderGuard)
-  async getFolders(@Token() token: string) {
-    return this.folderService.getFolders(token);
+  async getFolders(@Request() req, @Token() token: string) {
+    const finalToken = token ? token : req.cookies['token'];
+    return this.folderService.getFolders(finalToken);
   }
 }
