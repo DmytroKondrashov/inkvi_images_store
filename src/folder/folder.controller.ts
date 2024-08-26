@@ -4,6 +4,7 @@ import {
   Get,
   Post,
   Request,
+  Response,
   UseGuards,
 } from '@nestjs/common';
 import { FolderService } from './folder.service';
@@ -36,8 +37,9 @@ export class FolderController {
 
   @Get('/folders')
   @Public()
-  async getFolders(@Request() req, @Token() token: string) {
+  async getFolders(@Request() req, @Token() token: string, @Response() res) {
     const finalToken = token ? token : req.cookies['token']['token'];
-    return this.folderService.getFolders(finalToken);
+    const folders = await this.folderService.getFolders(finalToken);
+    res.render('folders_list', { folders });
   }
 }
