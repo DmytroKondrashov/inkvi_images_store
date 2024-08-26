@@ -72,7 +72,7 @@ export class TagService {
       if (res.affected === 0) {
         throw new BadRequestException(errorText);
       }
-      return 'Folder successfully deleted!';
+      return 'Tag successfully deleted!';
     } catch (error) {
       throw new BadRequestException(errorText);
     }
