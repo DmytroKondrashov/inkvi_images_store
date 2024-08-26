@@ -29,6 +29,12 @@ export class FolderController {
     return this.folderService.editFolder(body);
   }
 
+  @Get('/edit')
+  @UseGuards(ManipulateOwnFolderGuard)
+  async editFolderLayout(@Response() res, @Body() body) {
+    res.render('edit_folder', { folder: body });
+  }
+
   @Post('/delete')
   @UseGuards(ManipulateOwnFolderGuard)
   async deleteFolder(@Body() id: number) {
