@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Post,
+  Query,
   Request,
   Response,
   UseGuards,
@@ -31,8 +32,12 @@ export class FolderController {
 
   @Get('/edit')
   @UseGuards(ManipulateOwnFolderGuard)
-  async editFolderLayout(@Response() res, @Body() body) {
-    res.render('edit_folder', { folder: body });
+  async editFolderLayout(
+    @Response() res,
+    @Query('id') id: string,
+    @Query('name') name: string,
+  ) {
+    res.render('edit_folder', { folder: { id: parseInt(id), name } });
   }
 
   @Post('/delete')
