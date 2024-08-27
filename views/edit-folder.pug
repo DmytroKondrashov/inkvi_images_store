@@ -1,0 +1,42 @@
+html
+  head
+    title Edit Folder
+  body
+    h1 Edit Folder
+
+    form#editForm(onSubmit="onEdit(event)")
+      input(type="hidden", name="id", value=folder.id)
+      div
+        label(for="name") Folder Name:
+        input(type="text", name="name", id="name", value=folder.name, required)
+
+      button(type="submit") Save
+
+    script.
+      async function onEdit(event) {
+        event.preventDefault();
+
+        const form = document.getElementById('editForm');
+        const formData = new FormData(form);
+        const id = formData.get('id');
+        const name = formData.get('name');
+
+        try {
+          const response = await fetch('/folder/edit', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id, name }),
+          });
+
+          if (response.ok) {
+            window.location.href = '/folders';
+          } else {
+            alert('Failed to update the folder.');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('An error occurred while updating the folder.');
+        }
+      }
