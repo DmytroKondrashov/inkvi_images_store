@@ -1,3 +1,4 @@
+// views/folders.pug
 html
   head
     title Folder List
@@ -8,13 +9,13 @@ html
       each folder in folders
         li
           span= folder.name
-          button(onclick=`editFolder(${folder.id})`) Edit
+          button(onclick=`editFolder(${folder.id}, "${folder.name}")`) Edit
           button(onclick=`deleteFolder(${folder.id})`) Delete
 
     script.
-      function editFolder(id) {
-        alert('Edit folder with ID: ' + id);
-        // Implement the edit logic here, e.g., redirect to an edit page
+      function editFolder(id, name) {
+        const url = `/folder/edit?id=${id}&name=${encodeURIComponent(name)}`;
+        window.location.href = url;
       }
 
       function deleteFolder(id) {
