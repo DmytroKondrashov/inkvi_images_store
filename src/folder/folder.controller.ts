@@ -30,6 +30,7 @@ export class FolderController {
     return this.folderService.editFolder(body);
   }
 
+  @Public()
   @Get('/edit')
   @UseGuards(ManipulateOwnFolderGuard)
   async editFolderLayout(
