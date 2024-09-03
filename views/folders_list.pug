@@ -13,9 +13,27 @@ html
           button(onclick=`deleteFolder(${folder.id})`) Delete
 
     script.
-      function editFolder(id, name) {
-        const url = `/folder/edit?id=${id}&name=${encodeURIComponent(name)}`;
-        window.location.href = url;
+      async function editFolder(id, name) {
+        const token = localStorage.getItem('token');
+
+        try {
+          const response = await fetch(`/folder/edit?id=${id}&name=${encodeURIComponent(name)}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+            }
+          });
+
+          if (response.ok) {
+            window.location.href = `/folder/edit/${id}`;
+          } else {
+            alert('Failed to edit the folder.');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('An error occurred while editing the folder.');
+        }
       }
 
       function deleteFolder(id) {
