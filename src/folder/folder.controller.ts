@@ -32,7 +32,6 @@ export class FolderController {
 
   @Public()
   @Get('/edit')
-  @UseGuards(ManipulateOwnFolderGuard)
   async editFolderLayout(
     @Response() res,
     @Query('id') id: string,
