@@ -4,7 +4,7 @@ html
   body
     h1 Edit Folder
 
-    form#editForm(onSubmit="onEdit(event)")
+    form#editForm(onsubmit="onEdit(event)")
       input(type="hidden", name="id", value=folder.id)
       div
         label(for="name") Folder Name:
@@ -20,12 +20,14 @@ html
         const formData = new FormData(form);
         const id = formData.get('id');
         const name = formData.get('name');
+        const token = localStorage.getItem('token');
 
         try {
           const response = await fetch('/folder/edit', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify({ id, name }),
           });
