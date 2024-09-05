@@ -26,7 +26,7 @@ html
           });
 
           if (response.ok) {
-            window.location.href = `/folder/edit/${id}`;
+            window.location.href = `/folder/edit?id=${id}&name=${encodeURIComponent(name)}`;
           } else {
             alert('Failed to edit the folder.');
           }
