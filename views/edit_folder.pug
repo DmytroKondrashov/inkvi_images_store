@@ -13,6 +13,12 @@ html
       button(type="submit") Save
 
     script.
+      function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+      }
+
       async function onEdit(event) {
         event.preventDefault();
 
@@ -20,7 +26,7 @@ html
         const formData = new FormData(form);
         const id = formData.get('id');
         const name = formData.get('name');
-        const token = localStorage.getItem('token');
+        const token = getCookie('token');
 
         try {
           const response = await fetch('/folder/edit', {
