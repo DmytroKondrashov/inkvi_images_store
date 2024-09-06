@@ -17,10 +17,15 @@ export default class ManipulateOwnFolderGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     try {
       const request = context.switchToHttp().getRequest();
-      if (!request.headers.authorization) {
+      let token = request.cookies?.token;
+      if (!token && request.headers.authorization) {
+        token = request.headers.authorization.split(' ')[1];
+      }
+
+      if (!token) {
         return false;
       }
-      const token = request.headers.authorization.split(' ')[1];
+
       const userId = await this.commonService.getUserIdFromToken(token);
       const { id } = request.body;
       const folder = await this.folredService.getFolder(id);
