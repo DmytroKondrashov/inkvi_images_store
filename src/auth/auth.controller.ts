@@ -25,12 +25,17 @@ export class AuthController {
   @Post('login')
   async login(@Request() req: LoginDTO, @Response() res) {
     const token = await this.authService.login(req);
+
+    const isProduction = process.env.NODE_ENV === 'production';
+
+    // Set the cookie with options based on the environment
     res.cookie('token', token, {
-      httpOnly: true, // Secure flag to prevent JavaScript access to the cookie
-      secure: process.env.NODE_ENV === 'production', // Use secure flag in production
+      httpOnly: true, // Make the cookie inaccessible to JavaScript
+      secure: isProduction, // Use secure flag only in production (HTTPS)
       maxAge: 3600 * 1000, // 1 hour expiration
-      sameSite: 'strict', // Prevent CSRF attacks
+      sameSite: isProduction ? 'strict' : 'lax', // Use 'strict' in production for more security
     });
+
     return res.redirect('/folder/folders');
   }
 }
