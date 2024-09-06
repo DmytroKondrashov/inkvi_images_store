@@ -17,7 +17,8 @@ export default class ManipulateOwnFolderGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     try {
       const request = context.switchToHttp().getRequest();
-      let token = request.cookies?.token;
+      let token = request.cookies?.token?.token;
+
       if (!token && request.headers.authorization) {
         token = request.headers.authorization.split(' ')[1];
       }
