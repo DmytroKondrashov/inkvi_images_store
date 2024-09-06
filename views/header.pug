@@ -1,0 +1,38 @@
+header
+  nav
+    // Check if the token exists in the cookies
+    script.
+      function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return undefined;
+      }
+
+      const token = getCookie('token'); // Retrieve token from cookie
+      if (!token) {
+        // If no token, render login button
+        document.write('<a href="/auth/login">Login</a>');
+      } else {
+        // If token exists, render logout and folders buttons
+        document.write('<a href="/folder/folders">Folders</a>');
+        document.write('<button onclick="logout()">Logout</button>');
+      }
+
+    // JavaScript function to handle logout
+    script.
+      async function logout() {
+        try {
+          const response = await fetch('/auth/logout', {
+            method: 'POST'
+          });
+          if (response.ok) {
+            window.location.href = '/auth/login'; // Redirect to login page after logout
+          } else {
+            alert('Failed to log out.');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('An error occurred while logging out.');
+        }
+      }
