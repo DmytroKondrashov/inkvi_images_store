@@ -38,4 +38,16 @@ export class AuthController {
 
     return res.redirect('/folder/folders');
   }
+
+  @Public()
+  @Post('logout')
+  async logout(@Response() res) {
+    res.clearCookie('token', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+    });
+
+    return res.redirect('/login');
+  }
 }
