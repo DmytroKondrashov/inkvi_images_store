@@ -30,7 +30,7 @@ export class AuthController {
 
     // Set the cookie with options based on the environment
     res.cookie('token', token, {
-      httpOnly: true, // Make the cookie inaccessible to JavaScript
+      httpOnly: false, // Make the cookie inaccessible to JavaScript
       secure: isProduction, // Use secure flag only in production (HTTPS)
       maxAge: 3600 * 1000, // 1 hour expiration
       sameSite: isProduction ? 'strict' : 'lax', // Use 'strict' in production for more security
