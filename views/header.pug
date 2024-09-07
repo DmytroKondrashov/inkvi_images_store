@@ -26,6 +26,7 @@ header
           const response = await fetch('/auth/logout', {
             method: 'POST'
           });
+          console.log(response)
           if (response.ok) {
             window.location.href = '/auth/login'; // Redirect to login page after logout
           } else {

@@ -48,6 +48,6 @@ export class AuthController {
       sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
     });
 
-    return res.redirect('/login');
+    return res.redirect('/auth/login');
   }
 }
