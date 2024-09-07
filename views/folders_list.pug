@@ -1,44 +1,45 @@
-// views/folders.pug
-html
-  head
-    title Folder List
-  body
-    h1 Folder List
+extends layout
 
-    ul
-      each folder in folders
-        li
-          span= folder.name
-          button(onclick=`editFolder(${folder.id}, "${folder.name}")`) Edit
-          button(onclick=`deleteFolder(${folder.id})`) Delete
+block title 
+  title Folder List
 
-    script.
-      async function editFolder(id, name) {
-        const token = localStorage.getItem('token');
+block content
+  h1 Folder List
 
-        try {
-          const response = await fetch(`/folder/edit?id=${id}&name=${encodeURIComponent(name)}`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`,
-            }
-          });
+  ul
+    each folder in folders
+      li
+        span= folder.name
+        button(onclick=`editFolder(${folder.id}, "${folder.name}")`) Edit
+        button(onclick=`deleteFolder(${folder.id})`) Delete
 
-          if (response.ok) {
-            window.location.href = `/folder/edit?id=${id}&name=${encodeURIComponent(name)}`;
-          } else {
-            alert('Failed to edit the folder.');
+  script.
+    async function editFolder(id, name) {
+      const token = localStorage.getItem('token');
+
+      try {
+        const response = await fetch(`/folder/edit?id=${id}&name=${encodeURIComponent(name)}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
           }
-        } catch (error) {
-          console.error('Error:', error);
-          alert('An error occurred while editing the folder.');
-        }
-      }
+        });
 
-      function deleteFolder(id) {
-        if (confirm('Are you sure you want to delete this folder?')) {
-          alert('Delete folder with ID: ' + id);
-          // Implement the delete logic here, e.g., make an API call to delete the folder
+        if (response.ok) {
+          window.location.href = `/folder/edit?id=${id}&name=${encodeURIComponent(name)}`;
+        } else {
+          alert('Failed to edit the folder.');
         }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while editing the folder.');
       }
+    }
+
+    function deleteFolder(id) {
+      if (confirm('Are you sure you want to delete this folder?')) {
+        alert('Delete folder with ID: ' + id);
+        // Implement the delete logic here, e.g., make an API call to delete the folder
+      }
+    }
