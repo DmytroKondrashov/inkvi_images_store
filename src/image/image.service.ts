@@ -37,7 +37,7 @@ export class ImageService {
       image,
     });
     newImage.user = user;
-    newImage.folder = folder;
+    // newImage.folder = folder;
     this.imageRepository.save(newImage);
     return {
       id: newImage.id,
@@ -69,7 +69,7 @@ export class ImageService {
     const images = await this.imageRepository.find({
       where: {
         user: { id: userId },
-        folder: { id: folderId },
+        // folder: { id: folderId },
       },
     });
     const data = images.map((image) => {
