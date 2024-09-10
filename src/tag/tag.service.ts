@@ -41,6 +41,7 @@ export class TagService {
       await this.tagRepository.update(id, { name });
       const image = await this.imageRepository.findOne({
         where: { id: imageId },
+        relations: ['tags'],
       });
       if (imageId) {
         const tag = await this.tagRepository.findOne({ where: { id } });
@@ -61,6 +62,7 @@ export class TagService {
       );
       return this.tagRepository.findOne({ where: { id } });
     } catch (error) {
+      console.log(error);
       throw new BadRequestException(errorText);
     }
   }
