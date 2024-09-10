@@ -25,15 +25,15 @@ export class ImageController {
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(
     @UploadedFile() file: Express.Multer.File,
-    @Body() folderId: { folderId: string },
+    // @Body() folderId: { folderId: string },
     @Token() token: string,
   ): Promise<ImageDTO> {
     if (!file) {
       throw new BadRequestException('File is required!');
     }
-    if (!folderId) {
-      throw new BadRequestException('Folder ID is required!');
-    }
+    // if (!folderId) {
+    //   throw new BadRequestException('Folder ID is required!');
+    // }
     return this.imageService.createImage(file.buffer, folderId, token);
   }
 
