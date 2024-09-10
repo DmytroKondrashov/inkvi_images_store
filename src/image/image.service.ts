@@ -20,16 +20,17 @@ export class ImageService {
 
   async createImage(
     image: Buffer,
-    folderId: { folderId: string },
+    // folderId: { folderId: string },
     token: string,
   ): Promise<ImageDTO> {
     const filename = uuidv4();
     const userId = await this.commonService.getUserIdFromToken(token);
     const user = await this.userService.getUser(userId);
-    const folder = await this.folderService.getFolder(
-      parseInt(folderId.folderId, 10),
-    );
-    if (!user || !folder) {
+    // const folder = await this.folderService.getFolder(
+    //   parseInt(folderId.folderId, 10),
+    // );
+    // if (!user || !folder) {
+    if (!user) {
       throw new BadRequestException('Could not upload the image!');
     }
     const newImage = this.imageRepository.create({
@@ -43,7 +44,7 @@ export class ImageService {
       id: newImage.id,
       fileName: filename as string,
       userId: parseInt(userId, 10),
-      folderId: parseInt(folderId.folderId, 10),
+      // folderId: parseInt(folderId.folderId, 10),
       url: `${process.env.APP_HOST}/image/${filename}`,
     };
   }

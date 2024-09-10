@@ -13,9 +13,9 @@ export class ImageDTO {
   @IsNumber()
   userId: number;
 
-  @IsNotEmpty()
-  @IsNumber()
-  folderId: number;
+  // @IsNotEmpty()
+  // @IsNumber()
+  // folderId: number;
 
   @IsNotEmpty()
   @IsString()

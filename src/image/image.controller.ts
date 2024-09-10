@@ -34,7 +34,8 @@ export class ImageController {
     // if (!folderId) {
     //   throw new BadRequestException('Folder ID is required!');
     // }
-    return this.imageService.createImage(file.buffer, folderId, token);
+    // return this.imageService.createImage(file.buffer, folderId, token);
+    return this.imageService.createImage(file.buffer, token);
   }
 
   @Get('/images')
