@@ -91,6 +91,7 @@ export class ImageService {
       where: {
         user: { id: userId },
       },
+      relations: ['tags'],
     });
     return images;
   }
