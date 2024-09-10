@@ -9,6 +9,7 @@ import {
   Res,
   UploadedFile,
   UseInterceptors,
+  Response,
 } from '@nestjs/common';
 import { ImageService } from './image.service';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -48,6 +49,12 @@ export class ImageController {
       token,
       parseInt(folderId, 10),
     );
+  }
+
+  @Get('/images_list')
+  async getImagesList(@Token() token: string, @Response() res) {
+    const images = await this.imageService.getImagesList(token);
+    res.render('images_list', { images });
   }
 
   @Get(':filename')

@@ -84,4 +84,14 @@ export class ImageService {
     });
     return data;
   }
+
+  async getImagesList(token) {
+    const userId = await this.commonService.getUserIdFromToken(token);
+    const images = await this.imageRepository.find({
+      where: {
+        user: { id: userId },
+      },
+    });
+    return images;
+  }
 }
