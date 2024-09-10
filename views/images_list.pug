@@ -1,0 +1,43 @@
+html
+  head
+    title Image List
+  body
+    h1 Image List
+
+    ul
+      each image in images
+        li
+          h3= image.filename
+          img(src=`data:image/jpeg;base64,${image.image.toString('base64')}`, alt=image.filename, width="200")
+          button(onclick=`editImage(${image.id}, "${image.filename}")`) Edit
+
+    script.
+      async function editImage(id, filename) {
+        const token = getCookie('token');
+
+        try {
+          const response = await fetch(`/image/edit?id=${id}&filename=${encodeURIComponent(filename)}`, {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            }
+          });
+
+          if (response.ok) {
+            window.location.href = `/image/edit?id=${id}&filename=${encodeURIComponent(filename)}`;
+          } else {
+            alert('Failed to edit the image.');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('An error occurred while editing the image.');
+        }
+      }
+
+      function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return null;
+      }
