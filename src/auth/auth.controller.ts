@@ -1,11 +1,4 @@
-import {
-  Controller,
-  Request,
-  Post,
-  Get,
-  Render,
-  Response,
-} from '@nestjs/common';
+import { Controller, Post, Get, Render, Response, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Public } from 'src/common/decorators/public.decorator';
 import { LoginDTO } from './dto/login.dto';
@@ -23,8 +16,8 @@ export class AuthController {
 
   @Public()
   @Post('login')
-  async login(@Request() req: LoginDTO, @Response() res) {
-    const token = await this.authService.login(req);
+  async login(@Body() body: LoginDTO, @Response() res) {
+    const token = await this.authService.login(body);
 
     const isProduction = process.env.NODE_ENV === 'production';
 
