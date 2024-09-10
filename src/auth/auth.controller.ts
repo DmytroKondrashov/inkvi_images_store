@@ -29,7 +29,7 @@ export class AuthController {
       sameSite: isProduction ? 'strict' : 'lax', // Use 'strict' in production for more security
     });
 
-    return res.redirect('/folder/folders');
+    return res.redirect('/image/images_list');
   }
 
   @Public()
