@@ -11,6 +11,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import typeorm from './config/typeorm';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TagModule } from './tag/tag.module';
+import { JwtService } from '@nestjs/jwt';
+import { CommonService } from './common/common.service';
 
 @Module({
   imports: [
@@ -36,6 +38,8 @@ import { TagModule } from './tag/tag.module';
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
     },
+    JwtService,
+    CommonService,
   ],
 })
 export class AppModule {}
