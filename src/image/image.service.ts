@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Image } from './entity/image.entity';
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 import { FolderService } from 'src/folder/folder.service';
 import { CommonService } from 'src/common/common.service';
 import { UserService } from 'src/user/user.service';
@@ -20,10 +20,11 @@ export class ImageService {
 
   async createImage(
     image: Buffer,
+    filename: string,
     // folderId: { folderId: string },
     token: string,
   ): Promise<ImageDTO> {
-    const filename = uuidv4();
+    // const filename = uuidv4();
     const userId = await this.commonService.getUserIdFromToken(token);
     const user = await this.userService.getUser(userId);
     // const folder = await this.folderService.getFolder(
