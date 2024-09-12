@@ -5,7 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 export class CommonService {
   constructor(private jwtService: JwtService) {}
 
-  async getUserIdFromToken(token: string): Promise<string> {
+  async getUserIdFromToken(token): Promise<string> {
     try {
       const decoded = this.jwtService.verify(token, {
         secret: process.env.JWT_SECRET,
