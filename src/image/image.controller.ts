@@ -53,7 +53,11 @@ export class ImageController {
 
   @Get('/images_list')
   async getImagesList(@Token() token: string, @Response() res) {
-    const images = await this.imageService.getImagesList(token);
+    let tokenValue = token;
+    if (!tokenValue && res.req.cookies && res.req.cookies.token) {
+      tokenValue = res.req.cookies.token.token;
+    }
+    const images = await this.imageService.getImagesList(tokenValue);
     res.render('images_list', { images });
   }
 
