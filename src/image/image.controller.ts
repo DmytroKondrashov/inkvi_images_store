@@ -62,7 +62,6 @@ export class ImageController {
   }
 
   @Get(':filename')
-  @Public()
   @Render('image')
   async getImage(@Param('filename') filename: string) {
     const data = await this.imageService.getImage(filename);
