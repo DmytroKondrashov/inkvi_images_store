@@ -55,7 +55,7 @@ export class ImageService {
     if (!image) {
       throw new BadRequestException('Image not found!');
     }
-    return image.image;
+    return image;
   }
 
   async deleteImage(filename: string): Promise<string> {
