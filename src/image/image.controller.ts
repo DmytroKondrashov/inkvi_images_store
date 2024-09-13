@@ -6,10 +6,10 @@ import {
   Get,
   Param,
   Post,
-  Res,
   UploadedFile,
   UseInterceptors,
   Response,
+  Render,
 } from '@nestjs/common';
 import { ImageService } from './image.service';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -63,10 +63,10 @@ export class ImageController {
 
   @Get(':filename')
   @Public()
-  async getImage(@Param('filename') filename: string, @Res() res) {
+  @Render('image')
+  async getImage(@Param('filename') filename: string) {
     const data = await this.imageService.getImage(filename);
-    res.setHeader('Content-Type', 'image/jpeg');
-    res.send(data);
+    return { image: data };
   }
 
   @Delete(':filename')
