@@ -9,8 +9,9 @@ block content
   ul
     each image in images
         li
-          h3= image.filename
-          img(src=`data:image/jpeg;base64,${image.image.toString('base64')}`, alt=image.filename, width="200")
+          h3
+            a(href="#", onclick=`viewImage("${image.filename}")`)= image.filename
+          img(src=`data:image/jpeg;base64,${image.image.toString('base64')}`, alt=image.filename, width="200", onclick=`viewImage("${image.filename}")`, style="cursor: pointer;")
           button(onclick=`editImage(${image.id}, "${image.filename}")`) Edit
 
     script.
@@ -34,6 +35,31 @@ block content
         } catch (error) {
           console.error('Error:', error);
           alert('An error occurred while editing the image.');
+        }
+      }
+
+      async function viewImage(filename) {
+        const token = getCookie('token');
+
+        try {
+          const response = await fetch(`/image/${filename}`, {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            }
+          });
+
+          if (response.ok) {
+            const blob = await response.blob();
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank');
+          } else {
+            alert('Failed to view the image.');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('An error occurred while viewing the image.');
         }
       }
 
