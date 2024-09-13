@@ -11,11 +11,9 @@ header
 
       const token = getCookie('token'); // Retrieve token from cookie
       if (!token) {
-        // If no token, render login button
         document.write('<a href="/auth/login">Login</a>');
       } else {
-        // If token exists, render logout and folders buttons
-        document.write('<a href="/folder/folders">Folders</a>');
+        document.write('<a href="#" onclick="navigateToImages(event)">Images</a>');
         document.write('<button onclick="logout()">Logout</button>');
       }
 
@@ -35,5 +33,34 @@ header
         } catch (error) {
           console.error('Error:', error);
           alert('An error occurred while logging out.');
+        }
+      }
+
+    script.
+      let isNavigating = false; 
+
+      async function navigateToImages(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (isNavigating) return;
+        isNavigating = true;
+
+        try {
+          const response = await fetch('/image/images_list', {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          console.log(response)
+          if (response.ok) {
+            window.location.href = '/image/images';
+          } else {
+            alert('Failed to access images.');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('An error occurred while accessing images.');
         }
       }
