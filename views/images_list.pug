@@ -53,7 +53,7 @@ block content
           if (response.ok) {
             const blob = await response.blob();
             const url = URL.createObjectURL(blob);
-            window.open(url, '_blank');
+            window.location.href = url;
           } else {
             alert('Failed to view the image.');
           }
