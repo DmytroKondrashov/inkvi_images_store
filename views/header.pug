@@ -13,7 +13,7 @@ header
       if (!token) {
         document.write('<a href="/auth/login">Login</a>');
       } else {
-        document.write('<a href="#" onclick="navigateToImages(event)">Images</a>');
+        document.write('<button onclick="navigateToImages(event)">Images</button>');
         document.write('<button onclick="logout()">Logout</button>');
       }
 
@@ -47,18 +47,15 @@ header
         isNavigating = true;
 
         try {
+          console.log(token)
           const response = await fetch('/image/images_list', {
             method: 'GET',
             headers: {
-              'Authorization': `Bearer ${token}`
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
             }
           });
-          console.log(response)
-          if (response.ok) {
-            window.location.href = '/image/images';
-          } else {
-            alert('Failed to access images.');
-          }
+          window.location.href = '/image/images_list';
         } catch (error) {
           console.error('Error:', error);
           alert('An error occurred while accessing images.');
