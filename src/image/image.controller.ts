@@ -39,6 +39,11 @@ export class ImageController {
     return this.imageService.createImage(file.buffer, file.originalname, token);
   }
 
+  @Get('upload')
+  async getUploadPage(@Token() token: string, @Response() res) {
+    res.render('upload', { token });
+  }
+
   @Get('/images')
   async getAllImagesInFolder(
     @Token() token: string,
