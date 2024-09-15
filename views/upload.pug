@@ -1,0 +1,32 @@
+extends layout
+
+block title
+  title Upload
+
+block content
+  h1 Upload
+
+  form(action="/image/upload" method="post" enctype="multipart/form-data" id="uploadForm")
+    div
+      label(for="image") Image:
+      input(type="file" name="image" id="image")
+    div
+      button(type="submit") Upload
+
+  //- script.
+  //-   document.getElementById('image').addEventListener('change', function(event) {
+  //-     const file = event.target.files[0];
+  //-     if (file) {
+  //-       document.getElementById('uploadForm').submit();
+  //-     }
+  //-   });
+
+  //-   function uploadImage(file) {
+  //-     const formData = new FormData();
+  //-     formData.append('image', file);
+
+  //-     fetch('/upload', {
+  //-       method: 'POST',
+  //-       body: formData,
+  //-     })
+  //-   }
