@@ -13,7 +13,6 @@ import {
 } from '@nestjs/common';
 import { ImageService } from './image.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Public } from 'src/common/decorators/public.decorator';
 import { Token } from 'src/common/decorators/token.decorator';
 import { ImageDTO } from './dto/image.dto';
 
@@ -22,7 +21,6 @@ export class ImageController {
   constructor(private readonly imageService: ImageService) {}
 
   @Post('upload')
-  @Public()
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(
     @UploadedFile() file: Express.Multer.File,
