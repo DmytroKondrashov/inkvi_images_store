@@ -96,4 +96,12 @@ export class ImageService {
     });
     return images;
   }
+
+  async updateImage(id: number, body: any) {
+    const image = await this.imageRepository.findOne({ where: { id } });
+    if (!image) {
+      throw new BadRequestException('Image not found!');
+    }
+    return this.imageRepository.update(id, body);
+  }
 }

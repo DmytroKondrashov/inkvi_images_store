@@ -65,6 +65,11 @@ export class ImageController {
     res.render('images_list', { images });
   }
 
+  @Post(':id')
+  async updateImage(@Param('id') id: number, @Body() body) {
+    return this.imageService.updateImage(id, body);
+  }
+
   @Get(':id')
   @Render('image')
   async getImage(@Param('id') id: number) {
