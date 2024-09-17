@@ -15,6 +15,7 @@ import { ImageService } from './image.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Token } from 'src/common/decorators/token.decorator';
 import { ImageDTO } from './dto/image.dto';
+import { UpdateImageDTO } from './dto/update.image.dto';
 
 @Controller('image')
 export class ImageController {
@@ -66,7 +67,7 @@ export class ImageController {
   }
 
   @Post(':id')
-  async updateImage(@Param('id') id: number, @Body() body) {
+  async updateImage(@Param('id') id: number, @Body() body: UpdateImageDTO) {
     return this.imageService.updateImage(id, body);
   }
 
