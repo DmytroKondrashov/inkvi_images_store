@@ -58,8 +58,8 @@ export class ImageService {
     return image;
   }
 
-  async deleteImage(filename: string): Promise<string> {
-    const result = await this.imageRepository.delete({ filename });
+  async deleteImage(id: number): Promise<string> {
+    const result = await this.imageRepository.delete({ id });
     if (result.affected === 0) {
       throw new BadRequestException('Image not found!');
     }

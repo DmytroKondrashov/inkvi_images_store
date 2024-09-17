@@ -72,8 +72,8 @@ export class ImageController {
     return { image: data };
   }
 
-  @Delete(':filename')
-  async deleteImage(@Param('filename') filename: string) {
-    return this.imageService.deleteImage(filename);
+  @Delete(':id')
+  async deleteImage(@Param('id') id: number) {
+    return this.imageService.deleteImage(id);
   }
 }
