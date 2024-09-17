@@ -21,12 +21,13 @@ export class ImageController {
   constructor(private readonly imageService: ImageService) {}
 
   @Post('upload')
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('image'))
   async uploadFile(
     @UploadedFile() file: Express.Multer.File,
     // @Body() folderId: { folderId: string },
     @Token() token: string,
   ): Promise<ImageDTO> {
+    console.log('uploadFile', file);
     if (!file) {
       throw new BadRequestException('File is required!');
     }
@@ -58,7 +59,7 @@ export class ImageController {
   async getImagesList(@Token() token: string, @Response() res) {
     let tokenValue = token;
     if (!tokenValue && res.req.cookies && res.req.cookies.token) {
-      tokenValue = res.req.cookies.token.token;
+      tokenValue = res.req.cookies.token;
     }
     const images = await this.imageService.getImagesList(tokenValue);
     res.render('images_list', { images });
