@@ -31,9 +31,9 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       return true;
     }
     const token = context.switchToHttp().getRequest().cookies.token;
-    if (token.token) {
+    if (token) {
       try {
-        const userId = await this.commonService.getUserIdFromToken(token.token);
+        const userId = await this.commonService.getUserIdFromToken(token);
 
         const user = await this.userService.getUser(userId);
         if (!user) {

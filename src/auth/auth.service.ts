@@ -28,11 +28,9 @@ export class AuthService {
         throw new BadRequestException('Invalid password!');
       }
       const payload = { sub: foundUser.id, email: foundUser.email };
-      return {
-        token: this.jwtService.sign(payload, {
-          secret: process.env.JWT_SECRET,
-        }),
-      };
+      return this.jwtService.sign(payload, {
+        secret: process.env.JWT_SECRET,
+      });
     } else {
       throw new BadRequestException('User not found!');
     }
