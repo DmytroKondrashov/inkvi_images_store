@@ -65,10 +65,10 @@ export class ImageController {
     res.render('images_list', { images });
   }
 
-  @Get(':filename')
+  @Get(':id')
   @Render('image')
-  async getImage(@Param('filename') filename: string) {
-    const data = await this.imageService.getImage(filename);
+  async getImage(@Param('id') id: number) {
+    const data = await this.imageService.getImage(id);
     return { image: data };
   }
 
