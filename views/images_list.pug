@@ -12,24 +12,24 @@ block content
     each image in images
         li
           h3
-            a(href="#", onclick=`viewImage("${image.filename}")`)= image.filename
-          img(src=`data:image/jpeg;base64,${image.image.toString('base64')}`, alt=image.filename, width="200", onclick=`viewImage("${image.filename}")`, style="cursor: pointer;")
+            a(href="#", onclick=`viewImage("${image.id}")`)= image.filename
+          img(src=`data:image/jpeg;base64,${image.image.toString('base64')}`, alt=image.filename, width="200", onclick=`viewImage("${image.id}")`, style="cursor: pointer;")
 
     script.
-      async function viewImage(filename) {
+      async function viewImage(id) {
         const token = getCookie('token');
 
         try {
-          const response = await fetch(`/image/${filename}`, {
+          const response = await fetch(`/image/${id}`, {
             method: 'GET',
             headers: {
               'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json',
             }
           });
-
+          console.log(response);
           if (response.ok) {
-            window.location.href = `/image/${filename}`;
+            window.location.href = `/image/${id}`;
           } else {
             alert('Failed to view the image.');
           }
