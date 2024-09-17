@@ -21,15 +21,16 @@ block content
     async function editImage(id, filename) {
       const token = getCookie('token');
       try {
-        const response = await fetch(`/image/edit?id=${id}&filename=${encodeURIComponent(filename)}`, {
+        const response = await fetch(`/image/update/${id}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
           }
         });
+        console.log(response);
         if (response.ok) {
-          window.location.href = `/image/edit?id=${id}&filename=${encodeURIComponent(filename)}`;
+          window.location.href = `/image/update/${id}`;
         } else {
           alert('Failed to edit the image.');
         }
