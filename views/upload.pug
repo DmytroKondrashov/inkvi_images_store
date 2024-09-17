@@ -32,8 +32,7 @@ block content
         })
         .then(response => response.json())
         .then(data => {
-          console.log(data);
-          alert('Image uploaded successfully');
+          window.location.href = '/image/images_list';
         })
         .catch(error => {
           console.error('Error:', error);
