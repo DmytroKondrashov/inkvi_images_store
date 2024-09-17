@@ -71,6 +71,12 @@ export class ImageController {
     return this.imageService.updateImage(id, body);
   }
 
+  @Get('update/:id')
+  async getUpdateImagePage(@Param('id') id: number, @Response() res) {
+    const image = await this.imageService.getImage(id);
+    res.render('update_image', { image });
+  }
+
   @Get(':id')
   @Render('image')
   async getImage(@Param('id') id: number) {
