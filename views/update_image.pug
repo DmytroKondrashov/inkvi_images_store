@@ -7,10 +7,10 @@ block content
   h1 Update Image
   form(action=`/image/${image.id}` method='post' onsubmit='return false;')
     input(type='text' id='fileName' name='fileName' value=`${image.filename}`)
-    button(type='button' onclick=`updateImage("${image.id}")`) Update
+    button(type='button' onclick=`updateImage("${image.id}", "${image}")`) Update
 
   script.
-    async function updateImage(id) {
+    async function updateImage(id, image) {
       const fileName = document.getElementById('fileName').value;
       try {
         const response = await fetch(`/image/${image.id}`, {
