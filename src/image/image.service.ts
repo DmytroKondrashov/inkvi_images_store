@@ -51,7 +51,10 @@ export class ImageService {
   }
 
   async getImage(id: number) {
-    const image = await this.imageRepository.findOne({ where: { id } });
+    const image = await this.imageRepository.findOne({
+      where: { id },
+      relations: ['tags'],
+    });
     if (!image) {
       throw new BadRequestException('Image not found!');
     }
