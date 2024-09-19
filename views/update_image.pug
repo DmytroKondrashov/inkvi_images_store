@@ -7,6 +7,14 @@ block content
   h1 Update Image
   form(action=`/image/${image.id}` method='post' onsubmit='return false;')
     input(type='text' id='fileName' name='fileName' value=`${image.filename}`)
+    select(id='tags' name='tags' multiple)
+      if image.tags && image.tags.length > 0
+        each tag in image.tags
+          option(value=tag.id selected)= tag.name
+      if allTags
+        each tag in allTags
+          if !image.tags || !image.tags.some(t => t.id === tag.id)
+            option(value=tag.id)= tag.name
     button(type='button' onclick=`updateImage("${image.id}")`) Update
 
   script.
