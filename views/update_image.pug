@@ -11,14 +11,14 @@ block content
 
   script.
     async function updateImage(id) {
-      const fileName = document.getElementById('fileName').value;
+      const filename = document.getElementById('fileName').value;
       try {
         const response = await fetch(`/image/${id}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ fileName }),
+          body: JSON.stringify({ filename }),
         });
 
         if (!response.ok) {
