@@ -9,6 +9,13 @@ block content
   if image
     h2= image.filename
     img(src=`data:image/jpeg;base64,${image.image.toString('base64')}`, alt=image.filename, width="300")
+    if image.tags && image.tags.length > 0
+      h3 Tags:
+      ul
+        each tag in image.tags
+          li= tag.name
+    else
+      p No tags associated with this image.
     
     div.button-container
       button(onclick=`editImage(${image.id}, "${image.filename}")`) Edit
