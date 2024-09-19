@@ -5,20 +5,30 @@ block title
 
 block content
   h1 Update Image
-  form(action=`/image/${image.id}` method='post')
-    input(type='text' name='fileName' value=`${image.fileName}`)
+  form(action=`/image/${image.id}` method='post' onsubmit='return false;')
+    input(type='text' id='fileName' name='fileName' value=`${image.fileName}`)
     button(type='button' onclick=`updateImage("${image.id}")`) Update
 
-.script
-  async function updateImage(id) {
-    try {
-      const response = await fetch(`/image/${id}`, {
-        method: 'POST',
-      body: JSON.stringify({ fileName: document.getElementById('fileName').value }),
-      });
-      const data = await response.json();
-      window.location.href = `/image/${id}`;
-    } catch (error) {
-      console.error(error);
+  script.
+    async function updateImage(id) {
+      const fileName = document.getElementById('fileName').value;
+      try {
+        const response = await fetch(`/image/${id}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ fileName }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to update the image');
+        }
+
+        const data = await response.json();
+        window.location.href = `/image/${id}`;
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while updating the image');
+      }
     }
-  }
