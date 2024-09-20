@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Render } from '@nestjs/common';
 import { TagService } from './tag.service';
 import { CreateTagDTO } from './dto/create.tag.dto';
 import { UpdateTagDTO } from './dto/update.tag.dto';
@@ -27,5 +27,13 @@ export class TagController {
   @Public()
   async getTags() {
     return this.tagService.getTags();
+  }
+
+  @Get('/tags_list')
+  @Public()
+  @Render('tags_list')
+  async getTagsList() {
+    const data = await this.tagService.getTags();
+    return { tags: data };
   }
 }
