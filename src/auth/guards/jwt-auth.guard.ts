@@ -6,7 +6,7 @@ import {
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '@nestjs/passport';
-import { Observable } from 'rxjs';
+// import { Observable } from 'rxjs';
 import { CommonService } from 'src/common/common.service';
 import { IS_PUBLIC_KEY } from 'src/common/decorators/public.decorator';
 import { UserService } from 'src/user/user.service';
@@ -45,11 +45,14 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
         throw new UnauthorizedException('Invalid token');
       }
     } else {
-      const result = super.canActivate(context);
-      if (result instanceof Observable) {
-        return result.toPromise();
-      }
-      return result;
+      const response = context.switchToHttp().getResponse();
+      response.redirect('/auth/login');
+      return false;
+      // const result = super.canActivate(context);
+      // if (result instanceof Observable) {
+      //   return result.toPromise();
+      // }
+      // return result;
     }
   }
 }
