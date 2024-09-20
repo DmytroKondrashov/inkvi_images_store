@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Post } from '@nestjs/common';
 import { TagService } from './tag.service';
 import { CreateTagDTO } from './dto/create.tag.dto';
 import { UpdateTagDTO } from './dto/update.tag.dto';
+import { Public } from 'src/common/decorators/public.decorator';
 
 @Controller('tag')
 export class TagController {
@@ -23,6 +24,7 @@ export class TagController {
   }
 
   @Get('/tags')
+  @Public()
   async getFolders() {
     return this.tagService.getTags();
   }
