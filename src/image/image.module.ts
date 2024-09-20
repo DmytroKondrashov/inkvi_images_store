@@ -11,6 +11,7 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/user/entity/user.entity';
 import { TagService } from 'src/tag/tag.service';
 import { Tag } from 'src/tag/entity/tag.entity';
+import { Repository } from 'typeorm';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Image, Folder, User, Tag])],
@@ -22,6 +23,7 @@ import { Tag } from 'src/tag/entity/tag.entity';
     UserService,
     JwtService,
     TagService,
+    Repository,
   ],
 })
 export class ImageModule {}

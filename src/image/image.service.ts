@@ -1,18 +1,21 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { Image } from './entity/image.entity';
 // import { v4 as uuidv4 } from 'uuid';
 import { FolderService } from 'src/folder/folder.service';
 import { CommonService } from 'src/common/common.service';
 import { UserService } from 'src/user/user.service';
 import { ImageDTO } from './dto/image.dto';
+import { Tag } from 'src/tag/entity/tag.entity';
 
 @Injectable()
 export class ImageService {
   constructor(
     @InjectRepository(Image)
     private readonly imageRepository: Repository<Image>,
+    @InjectRepository(Tag)
+    private readonly tagRepository: Repository<Tag>,
     private readonly folderService: FolderService,
     private readonly commonService: CommonService,
     private readonly userService: UserService,
@@ -101,10 +104,25 @@ export class ImageService {
   }
 
   async updateImage(id: number, body: any) {
-    const image = await this.imageRepository.findOne({ where: { id } });
+    const { selectedTagsIds, filename } = body;
+    const image = await this.imageRepository.findOne({
+      where: { id },
+      relations: ['tags'],
+    });
+
     if (!image) {
       throw new BadRequestException('Image not found!');
     }
-    return this.imageRepository.update(id, body);
+
+    const selectedTags = await this.tagRepository.find({
+      where: { id: In(selectedTagsIds) },
+    });
+
+    image.tags = selectedTags;
+    image.filename = filename;
+
+    await this.imageRepository.save(image);
+
+    return image;
   }
 }
