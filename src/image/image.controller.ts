@@ -16,10 +16,14 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { Token } from 'src/common/decorators/token.decorator';
 import { ImageDTO } from './dto/image.dto';
 import { UpdateImageDTO } from './dto/update.image.dto';
+import { TagService } from 'src/tag/tag.service';
 
 @Controller('image')
 export class ImageController {
-  constructor(private readonly imageService: ImageService) {}
+  constructor(
+    private readonly imageService: ImageService,
+    private readonly tagService: TagService,
+  ) {}
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('image'))
@@ -74,7 +78,8 @@ export class ImageController {
   @Get('update/:id')
   async getUpdateImagePage(@Param('id') id: number, @Response() res) {
     const image = await this.imageService.getImage(id);
-    res.render('update_image', { image });
+    const allTags = await this.tagService.getTags();
+    res.render('update_image', { image, allTags });
   }
 
   @Get(':id')

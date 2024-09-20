@@ -9,9 +9,11 @@ import { UserService } from 'src/user/user.service';
 import { Folder } from 'src/folder/entity/folder.entity';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/user/entity/user.entity';
+import { TagService } from 'src/tag/tag.service';
+import { Tag } from 'src/tag/entity/tag.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Image, Folder, User])],
+  imports: [TypeOrmModule.forFeature([Image, Folder, User, Tag])],
   controllers: [ImageController],
   providers: [
     ImageService,
@@ -19,6 +21,7 @@ import { User } from 'src/user/entity/user.entity';
     CommonService,
     UserService,
     JwtService,
+    TagService,
   ],
 })
 export class ImageModule {}
