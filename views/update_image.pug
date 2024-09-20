@@ -7,14 +7,6 @@ block content
   h1 Update Image
   form(action=`/image/${image.id}` method='post' onsubmit='return false;')
     input(type='text' id='fileName' name='fileName' value=`${image.filename}`)
-    //- select(id='tags' name='tags' multiple)
-    //-   if image.tags && image.tags.length > 0
-    //-     each tag in image.tags
-    //-       option(value=tag.id selected)= tag.name
-    //-   if allTags
-    //-     each tag in allTags
-    //-       if !image.tags || !image.tags.some(t => t.id === tag.id)
-    //-         option(value=tag.id)= tag.name
     select(id='tags' name='tags' multiple)
         each tag in allTags
           option(value=tag.id selected=(image.tags && image.tags.some(t => t.id === tag.id)))= tag.name
@@ -23,13 +15,15 @@ block content
   script.
     async function updateImage(id) {
       const filename = document.getElementById('fileName').value;
+      const selectedTags = document.getElementById('tags').selectedOptions;
+      const selectedTagsIds = Array.from(selectedTags).map((tag) => tag.value);
       try {
         const response = await fetch(`/image/${id}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ filename }),
+          body: JSON.stringify({ filename, selectedTagsIds }),
         });
 
         if (!response.ok) {
