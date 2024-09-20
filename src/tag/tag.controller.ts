@@ -25,7 +25,7 @@ export class TagController {
 
   @Get('/tags')
   @Public()
-  async getFolders() {
+  async getTags() {
     return this.tagService.getTags();
   }
 }
