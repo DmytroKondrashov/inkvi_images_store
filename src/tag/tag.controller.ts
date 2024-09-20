@@ -1,8 +1,17 @@
-import { Body, Controller, Delete, Get, Post, Render } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Post,
+  Render,
+  UseGuards,
+} from '@nestjs/common';
 import { TagService } from './tag.service';
 import { CreateTagDTO } from './dto/create.tag.dto';
 import { UpdateTagDTO } from './dto/update.tag.dto';
 import { Public } from 'src/common/decorators/public.decorator';
+import TagUniquenessGuard from './guards/tag.uniqueness.guard';
 
 @Controller('tag')
 export class TagController {
@@ -14,6 +23,7 @@ export class TagController {
   }
 
   @Post('/edit')
+  @UseGuards(TagUniquenessGuard)
   async editFolder(@Body() body: UpdateTagDTO) {
     return this.tagService.editTag(body);
   }
