@@ -9,6 +9,7 @@ block content
   a(href="/image/upload") Upload
 
   form(action="/image/search" method="GET")
+    //- input(type="text" id='search' name="search" placeholder="Search images by name" oninput="debounceSearch()")
     input(type="text" id='search' name="search" placeholder="Search images by name")
     button(type="button", onClick='runSearch()') Search
 
@@ -43,9 +44,20 @@ block content
         }
       }
 
+      let debounceTimer;
+      function debounceSearch() {
+        clearTimeout(debounceTimer);  // Clear the previous timer
+        debounceTimer = setTimeout(runSearch, 300);  // Set a new timer (e.g., 300ms)
+      }
+
       async function runSearch() {
-        const token = getCookie('token');
         const searchQuery = document.getElementById('search').value;
+        
+        if (searchQuery.length < 2) {
+          return;  // Do nothing if the search query has fewer than 2 characters
+        }
+
+        const token = getCookie('token');
         const response = await fetch(`/image/images_list?searchQuery=${encodeURIComponent(searchQuery)}`, {
           method: 'GET',
           headers: {
