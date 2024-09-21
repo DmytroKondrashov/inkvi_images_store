@@ -54,9 +54,7 @@ block content
         });
 
         if (response.ok) {
-          //- window.location.href = `/image/${id}`;
-          const html = await response.text();
-          document.body.innerHTML = html;
+          window.location.href = `/image/images_list?searchQuery=${encodeURIComponent(searchQuery)}`;
         } else {
           alert('Failed to search images.');
         }
