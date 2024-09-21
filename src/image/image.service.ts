@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import { In, Like, Repository } from 'typeorm';
 import { Image } from './entity/image.entity';
 // import { v4 as uuidv4 } from 'uuid';
 import { FolderService } from 'src/folder/folder.service';
@@ -92,14 +92,19 @@ export class ImageService {
     return data;
   }
 
-  async getImagesList(token) {
+  async getImagesList(token: string, searchQuery?: string) {
     const userId = await this.commonService.getUserIdFromToken(token);
+
+    const whereClause: any = { user: { id: userId } };
+    if (searchQuery) {
+      whereClause.filename = Like(`%${searchQuery}%`);
+    }
+
     const images = await this.imageRepository.find({
-      where: {
-        user: { id: userId },
-      },
+      where: whereClause,
       relations: ['tags'],
     });
+
     return images;
   }
 

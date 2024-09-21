@@ -10,6 +10,7 @@ import {
   UseInterceptors,
   Response,
   Render,
+  Query,
 } from '@nestjs/common';
 import { ImageService } from './image.service';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -61,12 +62,19 @@ export class ImageController {
   }
 
   @Get('/images_list')
-  async getImagesList(@Token() token: string, @Response() res) {
+  async getImagesList(
+    @Token() token: string,
+    @Response() res,
+    @Query('searchQuery') searchQuery?: string,
+  ) {
     let tokenValue = token;
     if (!tokenValue && res.req.cookies && res.req.cookies.token) {
       tokenValue = res.req.cookies.token;
     }
-    const images = await this.imageService.getImagesList(tokenValue);
+    const images = await this.imageService.getImagesList(
+      tokenValue,
+      searchQuery,
+    );
     res.render('images_list', { images });
   }
 

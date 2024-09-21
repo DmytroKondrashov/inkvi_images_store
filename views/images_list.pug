@@ -9,8 +9,8 @@ block content
   a(href="/image/upload") Upload
 
   form(action="/image/search" method="GET")
-    input(type="text" name="search" placeholder="Search images by name")
-    button(type="submit") Search
+    input(type="text" id='search' name="search" placeholder="Search images by name")
+    button(type="button", onClick='runSearch()') Search
 
   ul
     each image in images
@@ -40,6 +40,25 @@ block content
         } catch (error) {
           console.error('Error:', error);
           alert('An error occurred while viewing the image.');
+        }
+      }
+
+      async function runSearch() {
+        const token = getCookie('token');
+        const searchQuery = document.getElementById('search').value;
+        const response = await fetch(`/image/images_list?searchQuery=${encodeURIComponent(searchQuery)}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (response.ok) {
+          //- window.location.href = `/image/${id}`;
+          const html = await response.text();
+          document.body.innerHTML = html;
+        } else {
+          alert('Failed to search images.');
         }
       }
 
