@@ -21,7 +21,7 @@ export class Image {
   @IsNotEmpty()
   filename: string;
 
-  @Column({ type: 'longblob', nullable: false })
+  @Column({ type: 'bytea', nullable: false })
   image: Buffer;
 
   // @ManyToOne(() => Folder, (folder) => folder.images)
