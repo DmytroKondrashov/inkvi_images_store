@@ -13,6 +13,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('pug');
+  app.useStaticAssets(join(__dirname, '..', 'public'));
   app.use(cookieParser());
   await app.listen(3000);
 }
