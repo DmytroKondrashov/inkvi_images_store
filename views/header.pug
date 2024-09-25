@@ -1,6 +1,5 @@
-header
-  nav
-    // Check if the token exists in the cookies
+header(class="has-background-light mb-4")
+  nav(class="p-4")
     script.
       function getCookie(name) {
         const value = `; ${document.cookie}`;
@@ -9,12 +8,12 @@ header
         return undefined;
       }
 
-      const token = getCookie('token'); // Retrieve token from cookie
+      const token = getCookie('token');
       if (!token) {
-        document.write('<a href="/auth/login">Login</a>');
+        document.write('<a href="/auth/login" class="button is-link is-rounded">Login</a>');
       } else {
-        document.write('<button onclick="navigateToImages(event)">Images</button>');
-        document.write('<button onclick="logout()">Logout</button>');
+        document.write('<button class="button is-info is-rounded" onclick="navigateToImages(event)">Images</button>');
+        document.write('<button class="button is-danger is-rounded" onclick="logout()">Logout</button>');
       }
 
     // JavaScript function to handle logout
@@ -24,9 +23,9 @@ header
           const response = await fetch('/auth/logout', {
             method: 'POST'
           });
-          console.log(response)
+          console.log(response);
           if (response.ok) {
-            window.location.href = '/auth/login'; // Redirect to login page after logout
+            window.location.href = '/auth/login';
           } else {
             alert('Failed to log out.');
           }
@@ -36,6 +35,7 @@ header
         }
       }
 
+    // JavaScript function to handle navigation to images
     script.
       let isNavigating = false; 
 
@@ -47,7 +47,7 @@ header
         isNavigating = true;
 
         try {
-          console.log(token)
+          const token = getCookie('token');
           const response = await fetch('/image/images_list', {
             method: 'GET',
             headers: {
