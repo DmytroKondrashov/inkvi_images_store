@@ -21,7 +21,7 @@ block content
         div(class="column is-half")
           li(class="card my-4")
             div(class="card-image")
-              figure(class="image is-4by3")
+              figure(class="image")
                 img(src=`data:image/jpeg;base64,${image.image.toString('base64')}`, alt=image.filename, class="is-clickable" onclick=`viewImage("${image.id}")`)
             div(class="card-content")
               div(class="media")
