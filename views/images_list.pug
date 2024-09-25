@@ -4,22 +4,26 @@ block title
   title Image List
 
 block content
-  h1(class="text-4xl font-bold mb-8") Image List
+  h1(class="title is-3") Image List
 
-  a(href="/image/upload" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded") Upload
+  a(href="/image/upload" class="button is-primary is-rounded") Upload
 
-  form(action="/image/search" method="GET" class="mt-6 mb-6 flex")
-    input(type="text" id="search" name="search" placeholder="Search images by name" 
-      class="w-full border border-gray-300 rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500" oninput="debounceSearch()")
-    button(type="button" onClick="runSearch()" class="ml-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded") Search
+  form(action="/image/search" method="GET" class="field is-grouped mt-6 mb-6")
+    p(class="control is-expanded")
+      input(type="text" id="search" name="search" placeholder="Search images by name" 
+        class="input is-medium" oninput="debounceSearch()")
+    p(class="control")
+      button(type="button" onClick="runSearch()" class="button is-primary is-medium") Search
 
-  ul(class="space-y-4")
+  ul
     each image in images
-      li(class="flex items-center space-x-4")
-        h3(class="text-lg font-semibold")
-          a(href="#", onclick=`viewImage("${image.id}")` class="text-blue-600 hover:underline")= image.filename
-        img(src=`data:image/jpeg;base64,${image.image.toString('base64')}`, alt=image.filename, width="200" 
-          class="cursor-pointer border border-gray-300 rounded-lg hover:border-blue-500" onclick=`viewImage("${image.id}")`)
+      li(class="media my-4")
+        figure(class="media-left")
+          img(src=`data:image/jpeg;base64,${image.image.toString('base64')}`, alt=image.filename, width="200" 
+            class="image is-128x128 is-clickable" onclick=`viewImage("${image.id}")`)
+        div(class="media-content")
+          h3(class="title is-5")
+            a(href="#", onclick=`viewImage("${image.id}")` class="has-text-primary")= image.filename
 
   script.
     async function viewImage(id) {
