@@ -92,20 +92,36 @@ export class ImageService {
     return data;
   }
 
-  async getImagesList(token: string, searchQuery?: string) {
+  async getImagesList(
+    token: string,
+    searchQuery?: string,
+    page?: string,
+    limit?: string,
+  ) {
     const userId = await this.commonService.getUserIdFromToken(token);
+
+    const finalPage = page ? parseInt(page) : 1;
+    const finalLimit = limit ? parseInt(limit) : 10;
+    const offset = (finalPage - 1) * finalLimit;
 
     const whereClause: any = { user: { id: userId } };
     if (searchQuery) {
       whereClause.filename = Like(`%${searchQuery}%`);
     }
 
-    const images = await this.imageRepository.find({
+    const [images, total] = await this.imageRepository.findAndCount({
       where: whereClause,
+      skip: offset,
+      take: finalLimit,
       relations: ['tags'],
     });
 
-    return images;
+    return {
+      images,
+      total,
+      page: finalPage,
+      limit: finalLimit,
+    };
   }
 
   async updateImage(id: number, body: any) {

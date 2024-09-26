@@ -66,16 +66,20 @@ export class ImageController {
     @Token() token: string,
     @Response() res,
     @Query('searchQuery') searchQuery?: string,
+    @Query('page') page?: string,
+    @Query('searchQuery') limit?: string,
   ) {
     let tokenValue = token;
     if (!tokenValue && res.req.cookies && res.req.cookies.token) {
       tokenValue = res.req.cookies.token;
     }
-    const images = await this.imageService.getImagesList(
+    const data = await this.imageService.getImagesList(
       tokenValue,
       searchQuery,
+      page,
+      limit,
     );
-    res.render('images_list', { images });
+    res.render('images_list', { data });
   }
 
   @Post(':id')
