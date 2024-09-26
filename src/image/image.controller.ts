@@ -66,8 +66,8 @@ export class ImageController {
     @Token() token: string,
     @Response() res,
     @Query('searchQuery') searchQuery?: string,
-    @Query('page') page?: string,
-    @Query('searchQuery') limit?: string,
+    @Query('page') page: string = '1',
+    @Query('searchQuery') limit: string = '10',
   ) {
     let tokenValue = token;
     if (!tokenValue && res.req.cookies && res.req.cookies.token) {
@@ -79,7 +79,15 @@ export class ImageController {
       page,
       limit,
     );
-    res.render('images_list', { data });
+    res.render('images_list', {
+      data: {
+        images: data.images,
+        currentPage: Number(page),
+        totalPages: Math.ceil(data.total / Number(limit)),
+        limit: Number(limit),
+        searchQuery: searchQuery || '',
+      },
+    });
   }
 
   @Post(':id')

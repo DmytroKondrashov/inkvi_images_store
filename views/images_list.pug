@@ -29,6 +29,21 @@ block content
                   h3(class="title is-5")
                     a(href="#", onclick=`viewImage("${image.id}")` class="has-text-primary")= image.filename
 
+    nav(class="pagination is-centered" role="navigation" aria-label="pagination")
+      if data.currentPage > 1
+        a(class="pagination-previous", href=`/image/images_list?page=${data.currentPage - 1}`) Previous
+
+      if data.currentPage < data.totalPages
+        a(class="pagination-next", href=`/image/images_list?page=${data.currentPage + 1}`) Next
+
+      ul(class="pagination-list")
+        each page in [...Array(data.totalPages).keys()].map(i => i + 1)
+          li
+            if page === data.currentPage
+              a(class="pagination-link is-current", aria-label=`Page ${page}`, aria-current="page")= page
+            else
+              a(class="pagination-link", href=`/image/images_list?page=${page}`, aria-label=`Goto page ${page}`)= page
+
   script.
     async function viewImage(id) {
       const token = getCookie('token');
@@ -41,7 +56,6 @@ block content
             'Content-Type': 'application/json',
           }
         });
-        console.log(response);
         if (response.ok) {
           window.location.href = `/image/${id}`;
         } else {
